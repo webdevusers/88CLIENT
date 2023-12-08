@@ -22,7 +22,8 @@ const router = createRouter({
       component: Subcategory
     },
     {
-      path: '/product',
+      name: 'product',
+      path: '/product/:query',
       component: Product
     },
     {

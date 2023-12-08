@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/product">
+    <router-link :to="{ name: 'product', params: { query: id || 123 } }">
         <div class="card" :style="{ 'opacity': this.stock_quantity ? '' : '.3' }">
             <div class="card-image">
                 <img :src="srcImage" alt="">
@@ -62,7 +62,7 @@ import axios from 'axios'
 
 export default {
     props: {
-        _id: String,
+        id: String,
         srcImage: String,
         title: String,
         liked: Boolean,

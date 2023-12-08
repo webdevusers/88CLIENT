@@ -466,6 +466,8 @@ import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/thumbs';
 
+import axios from 'axios'
+
 import TheHeader from '../components/base/TheHeader.vue'
 import TheAction from '../components/base/TheAction.vue'
 import TheFooter from '../components/base/TheFooter.vue'
@@ -516,7 +518,21 @@ export default {
       memory,
       color
     }
-  }
+  },
+  created() {
+    const id = this.$route.params.query;
+    console.log(id)
+    axios.post(`http://88.cx.ua:3000/item/getSubcategory`, {
+      id: id
+    })
+      .then(
+        (response) => {
+          this.products = response.data
+          this.subcategoryName = response.data.name
+          this.updateProducts();
+        },
+      );
+  },
 }
 </script>
 
