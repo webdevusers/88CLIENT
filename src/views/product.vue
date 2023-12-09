@@ -287,7 +287,6 @@
 
                     </div>
                     <div class="tabs_product__characteristics_items_property_name">
-                      Усі характеристики
                     </div>
                   </div>
                   <ul class="feature">
@@ -515,11 +514,22 @@ export default {
     },
     addToCart(item) {
       const cartStore = useCartStore();
-      cartStore.addItem(item)
+      cartStore.addItem(item);
+      const localUserCart = JSON.parse(window.localStorage.getItem("userCart"))
+      if (!localUserCart) {
+        window.localStorage.setItem("userCart", JSON.stringify([item]))
+      } else {
+        localUserCart.push(item);
+        window.localStorage.setItem("userCart", JSON.stringify(localUserCart))
+      }
     }
   },
   created() {
     const id = this.$route.params.query;
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // для плавной прокрутки, если поддерживается
+    });
     console.log(id)
     axios.post(`http://88.cx.ua:3000/item/getProduct`, {
       id

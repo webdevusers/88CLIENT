@@ -495,7 +495,7 @@ export default {
             &-icon {
                 padding: 7px 12px;
                 border-radius: 8px;
-                transition: 0.7s;
+                transition: 0.3s;
                 user-select: none;
                 margin-right: 7.5px;
 

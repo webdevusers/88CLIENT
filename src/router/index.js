@@ -3,6 +3,7 @@ import Home from '../views/index.vue'
 import Subcategory from "../views/subcategory.vue";
 import Product from "../views/product.vue";
 import CartPage from '../views/cart.vue'
+import Checkout from '../views/checkout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
       name: 'cart',
       path: '/cart',
       component: CartPage
+    },
+    {
+      name: 'checkout',
+      path: '/checkout',
+      component: Checkout
     }
   ]
 })

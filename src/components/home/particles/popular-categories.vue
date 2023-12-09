@@ -162,7 +162,11 @@ export default {
                 transition: .7s;
                 padding: 7.5px 6px;
                 border-radius: 10px;
+                transition: .3s;
+                &:hover {
+                    background: #EFCA00;
 
+                }
                 &.active {
                     background: #EFCA00;
                 }

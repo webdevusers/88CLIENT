@@ -140,6 +140,24 @@ export default {
   
 
 <style lang="scss" scoped>
+.card {
+    border: 1px solid transparent;
+    transition: .3s;
+
+    &:hover {
+        box-shadow: unset;
+        border-color: #EFCA00;
+
+        .addToCart {
+            background-color: #EFCA0080;
+
+            svg {
+                stroke: #EFCA00 !important;
+            }
+        }
+
+    }
+}
 .new {
     margin-bottom: 40px;
 
