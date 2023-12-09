@@ -4,31 +4,30 @@
 <script setup>
 import { RouterView } from 'vue-router'
 </script>
-<script>
+<!-- <script>
 import { ref, onBeforeMount } from "vue";
-import { useApiStore } from "./store/store";
 
 export default {
   created() {
     const apiStore = useApiStore();
     const dataArray = ref([]);
 
-    onBeforeMount(async () => {
-      try {
-        await apiStore.fetchDataAndSetArray();
+    // onBeforeMount(async () => {
+    //   try {
+    //     await apiStore.fetchDataAndSetArray();
 
-        dataArray.value = apiStore.dataArray;
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    });
+    //     dataArray.value = apiStore.dataArray;
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // });
 
     return {
       dataArray,
     };
   },
 };
-</script>
+</script> -->
 <style lang="scss">
 @font-face {
   font-family: '88';

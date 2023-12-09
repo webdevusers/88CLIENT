@@ -154,7 +154,7 @@
               <span>До</span>
               <input type="number" v-model="maxPrice" @keyup.enter="updateProducts">
             </div>
-            <a-slider range class="subcategory__filter_inner_cost_slider" :min="minPrice" :max="maxPrice"/>
+            <a-slider range class="subcategory__filter_inner_cost_slider" :min="minPrice" :max="maxPrice" />
             <hr />
             <p class="text-center subcategory__filter_inner_name">Бренд</p>
             <a-checkbox>Apple (123)</a-checkbox><br>
@@ -180,9 +180,9 @@
         </div>
         <div class="subcategory__items">
           <template v-for="(i, idx) in products" :key="idx">
-            <pc :title="i.name" :id="i._id" :srcImage="i.images[0].url" :liked="i.liked" :discount="true" :oldprice="i.oldPrice"
-              :price="i.price" :stock_quantity="i.stock_quantity" :ratingVoid="i.ratingVoid"
-              :countRating="i.reviews.length" />
+            <pc :title="i.name" :id="i._id" :srcImage="i.images[0] ? i.images[0].url || 'Логотип 88' : 'Логотип 88'"
+              :liked="i.liked" :discount="true" :oldprice="i.oldPrice" :price="i.price" :stock_quantity="i.stock_quantity"
+              :ratingVoid="i.ratingVoid" :countRating="i.reviews.length" />
           </template>
         </div>
       </div>
@@ -288,12 +288,10 @@ export default {
   created() {
     const id = this.$route.params.query;
     console.log(id)
-    axios.post(`http://88.cx.ua:3000/item/getSubcategory`, {
-      id: id
-    })
+    axios.get(`http://88.cx.ua:3000/item/getSubcategory?id=${id}&page=1`)
       .then(
         (response) => {
-          this.products = response.data.items
+          this.products = response.data
           this.subcategoryName = response.data.name
           this.updateProducts();
         },

@@ -111,7 +111,7 @@
   
 <script>
 import { ref, onBeforeMount } from "vue";
-import { useApiStore } from "../../store/store";
+// import { useApiStore } from "../../store/store";
 import axios from "axios";
 
 export default {
@@ -176,7 +176,7 @@ export default {
 <style scoped lang="scss">
 .catalogModal-categories {
     position: absolute;
-    top: 110px;
+    top: 100px;
     background: #f8f8f8;
     height: 100vh;
     width: 100%;

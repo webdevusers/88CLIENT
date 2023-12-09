@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="card-text">
                                     <div class="card-title">
-                                        {{ i.name }}
+                                        {{ truncateTitle(i.name, 68) }}
                                     </div>
                                     <div class="card-rating">
                                         <div class="card-rating-stars">
@@ -112,6 +112,13 @@ export default {
                 id,
             });
         },
+        truncateTitle(title, length) {
+            if (title.length > length) {
+                return title.substring(0, length) + '...';
+            } else {
+                return title;
+            }
+        }
     },
     components: {
         Swiper,
@@ -143,9 +150,11 @@ export default {
         margin-bottom: 40px;
     }
 }
+
 a {
     color: #292929;
 }
+
 .card-image {
     max-width: 220px;
     width: 100%;

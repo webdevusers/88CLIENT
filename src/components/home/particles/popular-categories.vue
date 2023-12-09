@@ -59,7 +59,7 @@ import pc from '../../ui/product-card.vue'
 <script>
 import axios from 'axios';
 import { onBeforeMount } from "vue";
-import { useApiStore } from "@/store/store";
+// import { useApiStore } from "@/store/store";
 
 export default {
     props: {
@@ -160,7 +160,7 @@ export default {
                 flex-direction: row;
                 align-items: center;
                 transition: .7s;
-                padding: 7.5px 5px;
+                padding: 7.5px 6px;
                 border-radius: 10px;
 
                 &.active {

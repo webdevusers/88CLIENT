@@ -6,7 +6,7 @@
             </div>
             <div class="card-text">
                 <div class="card-title">
-                    {{ truncateTitle(title, 68) }}
+                    {{ truncateTitle(title, 60) }}
                 </div>
                 <div class="card-rating">
                     <div class="card-rating-stars">
@@ -192,7 +192,7 @@ a {
     }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 450px) {
     .card {
         min-height: 380px;
 
