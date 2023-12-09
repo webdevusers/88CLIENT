@@ -8,29 +8,28 @@
                 <div class="main__wrap wrap">
                     <div class="welcome">
                         <aside class="hide">
-                            <sideBar @updateCategories="updateCategories"/>
+                            <sideBar @updateCategories="updateCategories" />
                         </aside>
                         <div>
                             <TheBanner />
                         </div>
                     </div>
-                    <div class="padding">
-                        <router-link to="categories" class="btn btn-catalog centered" id="showMobile">
-                            Каталог товарів
-                        </router-link>
+                    <div class="padding btn btn-catalog centered" @click="openModal = !openModal">
+                        Каталог товарів
                     </div>
-                    <popularCategories :updatedCategories="categories"/>
-                    <newItems :updatedCategories="categories"/>
-                    <categoriesItems :updatedCategories="categories"/>
+                    <popularCategories :updatedCategories="categories" />
+                    <newItems :updatedCategories="categories" />
+                    <categoriesItems :updatedCategories="categories" />
                 </div>
             </main>
         </div>
+        <catalog :catalog-modal="openModal" />
         <TheFooter />
     </div>
 </template>
 <script>
 import Hammer from 'hammerjs';
-
+import catalog from '../ui/catalog.vue'
 export default {
     mounted() {
         this.hammer = new Hammer(this.$refs.burgerMenu);
@@ -46,6 +45,7 @@ export default {
         return {
             categories: [],
             showBurgerMenu: false,
+            openModal: false,
         }
     },
     methods: {
@@ -64,7 +64,7 @@ export default {
                 this.showBurgerMenu = false
             }
         },
-    }
+    },
 }
 </script>
 <script setup>
@@ -99,9 +99,11 @@ import TheFooter from '../base/TheFooter.vue'
         padding: 15px;
         font-size: 20px;
         font-family: '88';
+        display: none;
 
         @media (max-width: 968px) {
             font-size: 16px;
+            display: block;
         }
     }
 

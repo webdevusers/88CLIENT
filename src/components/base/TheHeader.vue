@@ -81,7 +81,7 @@ export default {
   data() {
     return {
       links: [
-        { name: 'Усі категорії', link: '/categories' },
+        { name: 'Головна', link: '/' },
         { name: 'Бонуси', link: '/discounts' },
         { name: 'О нас', link: '/about' },
         { name: 'Умови', link: '/services' },

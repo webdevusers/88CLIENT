@@ -205,7 +205,6 @@ export default {
 .mySwiper {
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 5px 5px 25px 0px rgba(0, 0, 0, 0.20);
 
 }
 </style>

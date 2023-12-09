@@ -179,8 +179,8 @@
           </div>
         </div>
         <div class="subcategory__items">
-          <template v-for="(i, idx) in products" :key="i._id">
-            <pc :title="i.name" :srcImage="i.images[0].url" :liked="i.liked" :discount="true" :oldprice="i.oldPrice"
+          <template v-for="(i, idx) in products" :key="idx">
+            <pc :title="i.name" :id="i._id" :srcImage="i.images[0].url" :liked="i.liked" :discount="true" :oldprice="i.oldPrice"
               :price="i.price" :stock_quantity="i.stock_quantity" :ratingVoid="i.ratingVoid"
               :countRating="i.reviews.length" />
           </template>
