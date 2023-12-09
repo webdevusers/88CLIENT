@@ -6,20 +6,11 @@
             </div>
             <div class="card-text">
                 <div class="card-title">
-                    {{ title }}
+                    {{ truncateTitle(title, 68) }}
                 </div>
                 <div class="card-rating">
                     <div class="card-rating-stars">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fstar.svg?alt=media&token=3ba8de8e-cc6d-423e-a62f-e36e8b62b228&_gl=1*9mof4n*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzMzguNDkuMC4w"
-                            alt="">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fstar.svg?alt=media&token=3ba8de8e-cc6d-423e-a62f-e36e8b62b228&_gl=1*9mof4n*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzMzguNDkuMC4w"
-                            alt="">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fstar.svg?alt=media&token=3ba8de8e-cc6d-423e-a62f-e36e8b62b228&_gl=1*9mof4n*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzMzguNDkuMC4w"
-                            alt="">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fstar.svg?alt=media&token=3ba8de8e-cc6d-423e-a62f-e36e8b62b228&_gl=1*9mof4n*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzMzguNDkuMC4w"
-                            alt="">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fgray-star.svg?alt=media&token=e17a15d9-2f48-466a-8077-06b9fb9673bd&_gl=1*1fvygj6*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzNjMuMjQuMC4w"
-                            alt="">
+                        <a-rate :value="ratingVoid" />
                     </div>
                     <div class="card-rating-count">
                         <div class="card-rating-count-image">
@@ -27,15 +18,13 @@
                                 alt="">
                         </div>
                         <div class="card-rating-count-text">
-                            {{ countRating > 100 ? "99+" : countRating}}
+                            {{ countRating > 100 ? "99+" : countRating }}
                         </div>
                     </div>
                 </div>
-                <template v-if="discount === true">
-                    <div class="card-discount">
-                        <p><strike>{{ oldprice }}₴</strike></p><span>{{ calculateDiscount() }}</span>
-                    </div>
-                </template>
+                <div class="card-discount">
+                    <p><strike>{{ oldprice }}₴</strike></p><span>{{ calculateDiscount() }}</span>
+                </div>
                 <div class="card-price">
                     {{ price }}₴
                 </div>
@@ -88,14 +77,34 @@ export default {
                 token: localStorage.getItem("token"),
                 id
             })
+        },
+        truncateTitle(title, length) {
+            if (title.length > length) {
+                return title.substring(0, length) + '...';
+            } else {
+                return title;
+            }
         }
     },
 };
 </script>
   
 <style lang="scss" scoped>
+.card-rating {
+    margin-bottom: 16px;
+}
+
+.card-rating-count {
+    padding-top: 8px;
+}
+
 a {
     text-decoration: none;
+    color: #292929;
+}
+
+.anticon svg {
+    width: 12px !important;
 }
 
 .card {
@@ -107,6 +116,9 @@ a {
     z-index: 1;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 540px) {
+    }
 
     &-image {
         text-align: center;
@@ -134,6 +146,7 @@ a {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         padding-right: 16px;
 
         &-count {
@@ -181,10 +194,14 @@ a {
 
 @media (max-width: 440px) {
     .card {
-        min-height: 460px;
+        min-height: 380px;
 
         &-image {
             padding: 0 5px;
+        }
+
+        &-title {
+            font-size: 14px;
         }
     }
 }
@@ -204,6 +221,5 @@ a {
     cursor: pointer;
     user-select: none;
     z-index: 5;
-}
-</style>
+}</style>
   

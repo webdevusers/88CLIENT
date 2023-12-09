@@ -1,23 +1,90 @@
 <template>
     <template v-if="catalogModal">
         <div class="catalogModal">
-            <aside class="catalogModal-aside">
-                <ul>
-                    <li v-for="category in categories" :key="category._id" @mouseover="showTabContent(category.name)">
-                        <img :src="category.img" alt="">
-                        <p>{{ category.name }}</p>
-                        <svg style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#333333">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path d="M7 10L12 15L17 10" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                            </g>
-                        </svg>
-                    </li>
-                </ul>
-            </aside>
+            <div id="showMobile">
+                <div class="logo">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Flogo.svg?alt=media&token=4f7b2228-5c40-4437-935e-2435c48deacd&_gl=1*1ytnyoy*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY3NTAzMC4xLjEuMTY5ODY3NTU5OC4xMS4wLjA."
+                        alt="" />
+                </div>
+                <div class="title">
+                    Каталог товарів
+                </div>
+                <div class="close">
+                    <img @click="catalogModal = false"
+                        src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fclose.svg?alt=media&token=ed2a79ce-eeca-4259-998f-f3a1f0c77a81&_gl=1*1hi8n3w*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc3MTYzNi44LjEuMTY5ODc3MTY0Ny40OS4wLjA."
+                        alt="" />
+                </div>
+            </div>
+            <template v-if="windowWidth > 968">
+                <aside class="catalogModal-aside">
+                    <ul>
+                        <li v-for="category in categories" :key="category._id" @mouseover="showTabContent(category.name)">
+                            <img :src="category.img" alt="">
+                            <p>{{ category.name }}</p>
+                            <svg style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" stroke="#333333">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M7 10L12 15L17 10" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                        </li>
+                    </ul>
+                </aside>
+            </template>
+            <template v-else>
+                <aside class="catalogModal-aside">
+                    <ul style="overflow-y: auto; max-height: 500px;">
+                        <li v-for="category in categories" :key="category._id" @click="showModalContent(category._id)">
+                            <img :src="category.img" alt="">
+                            <p>{{ category.name }}</p>
+                            <svg style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" stroke="#333333">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M7 10L12 15L17 10" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                        </li>
+                    </ul>
+                </aside>
+                <template v-if="categoryModal">
+                    <div class="catalogModal-categories">
+                        <ul>
+                            <div class="title">
+
+                                <svg @click="categoryModal = false, categoryModalContent = []" style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" stroke="#333333">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M7 10L12 15L17 10" stroke="#333333" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>Категорія: {{ categoryModalContent[0].name }}
+                            </div>
+                            <li v-for="(item, idx) in categoryModalContent[0].childCategories" :key="idx">
+                                <router-link :to="{ name: 'subcategory', params: { query: item._id } }">
+                                    <p>{{ item.name }}</p>
+                                    <svg style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#333333">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path d="M7 10L12 15L17 10" stroke="#333333" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+            </template>
             <div class="catalogModal-content">
                 <div v-for="(category, index) in categories" :key="index" class="tab-content"
                     :class="{ active: showTab === category.name }">
@@ -45,6 +112,7 @@
 <script>
 import { ref, onBeforeMount } from "vue";
 import { useApiStore } from "../../store/store";
+import axios from "axios";
 
 export default {
     props: {
@@ -54,41 +122,139 @@ export default {
         return {
             categories: [],
             showTab: 'Популярні категорії',
+            windowWidth: window.innerWidth,
+            categoryModal: false,
+            categoryModalContent: []
         };
     },
     methods: {
         showTabContent(tabTitle) {
             this.showTab = tabTitle;
         },
+        handleResize() {
+            this.windowWidth = window.innerWidth;
+        },
+        showModalContent(modalId) {
+            console.log(modalId);
+            this.categoryModal = true;
+            this.categoryModalContent = []
+            this.categoryModalContent = this.categories
+                .filter(category => category._id === modalId) // Фильтруем категории по modalId
+                .map(category => {
+                    return {
+                        name: category.name,
+                        _id: category._id,
+                        childCategories: category.childCategories.map(childCategory => ({
+                            name: childCategory.name,
+                            _id: childCategory._id
+                        }))
+                    };
+                });
+        }
     },
     created() {
-        const apiStore = useApiStore();
-        const otherComponentData = ref([]);
-
-        onBeforeMount(() => {
-            this.categories = apiStore.dataArray;
-        });
-
-        return {
-            otherComponentData,
-        };
+        axios.get('http://88.cx.ua:3000/item/all').then(
+            (response) => {
+                this.categories = response.data
+            }
+        )
     },
     watch: {
         catalogModal(val) {
             this.$emit('catalogModal', val)
         }
-    }
+    },
+    mounted() {
+        window.addEventListener('resize', this.handleResize);
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.handleResize);
+    },
 };
 </script>
   
 <style scoped lang="scss">
+.catalogModal-categories {
+    position: absolute;
+    top: 110px;
+    background: #f8f8f8;
+    height: 100vh;
+    width: 100%;
+
+    ul {
+        padding-top: 20px;
+        padding-right: 16px;
+
+        .title {
+            font-size: 18px;
+            font-family: '88';
+            margin-bottom: 32px;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            svg {
+                rotate: 90deg;
+                margin-right: 15px;
+            }
+
+            &::after {
+                position: absolute;
+                content: "";
+                display: block;
+                width: 80px;
+                height: 2px;
+                background: #292929;
+                bottom: -10px;
+                left: 48px;
+            }
+        }
+
+        list-style: none;
+        padding-left: 16px;
+        margin-bottom: 24px;
+
+        li {
+            margin-bottom: 16px;
+        }
+
+        a {
+            color: #292929;
+            font-size: 16px;
+            font-family: '88';
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 5px;
+            transition: .3s;
+
+            &:hover {
+                background: #00000020;
+                border-radius: 10px;
+            }
+
+            svg {
+                rotate: -90deg;
+            }
+
+            p {
+                width: 90%;
+            }
+        }
+    }
+}
+
 .catalogModal-content__grid {
     ul>li {
         list-style: none;
+
         a {
             text-decoration: none;
+
             p {
                 color: #292929;
+
                 &:hover {
                     color: #0027ab;
                 }
@@ -96,6 +262,7 @@ export default {
         }
     }
 }
+
 .catalogModal {
     max-width: 70%;
     width: 100%;
@@ -110,6 +277,38 @@ export default {
     z-index: 10000;
     display: flex;
     flex-direction: row;
+
+    @media (max-width: 968px) {
+        z-index: 11000;
+        max-width: 100% !important;
+        top: 0;
+        height: 100vh;
+        overflow-y: fixed;
+
+        &-aside {
+            padding-top: 100px !important;
+            width: 100% !important;
+
+            ul {
+                overflow-y:scroll;
+                padding: 0 5px !important;
+
+                li {
+                    img {
+                        min-width: 40px;
+                    }
+                    p {
+                        width: 90% !important;
+                        font-size: 18px !important;
+                    }
+                }
+            }
+        }
+
+        &-content {
+            display: none;
+        }
+    }
 
     &-aside {
         width: 28%;
@@ -241,6 +440,34 @@ export default {
     }
 }
 
+#showMobile {
+    display: none;
+
+    @media (max-width: 968px) {
+        display: block;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 5px;
+
+        .logo {
+            img {
+                max-width: 60px;
+            }
+        }
+
+        .title {
+            font-size: 24px;
+            font-family: '88';
+        }
+
+        .close {}
+    }
+
+}
+
 #categoryImg {
     position: absolute;
     opacity: .3;
@@ -302,5 +529,4 @@ export default {
             }
         }
     }
-}
-</style>
+}</style>

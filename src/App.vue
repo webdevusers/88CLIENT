@@ -34,7 +34,11 @@ export default {
   font-family: '88';
   src: url('/fonts/88.ttf');
 }
-
+@media (max-width: 768px) {
+  .ant-rate {
+    font-size: 16px !important;
+  }
+}
 * {
   padding: 0;
   margin: 0;

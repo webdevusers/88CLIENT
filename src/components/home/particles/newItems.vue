@@ -8,54 +8,54 @@
                 :breakpoints="breakpoints">
                 <template v-for="(i, idx) in products" :key="idx">
                     <swiper-slide>
-                        <div class="card" :style="{ 'filter': i.stock_quantity ? 'blur(10px)' : '' }">
-                            <div class="card-image">
-                                <img :src="i.src" alt="">
-                            </div>
-                            <div class="card-text">
-                                <div class="card-title">
-                                    {{ i.title }}
+                        <router-link :to="{ name: 'product', params: { query: i._id || 123 } }">
+
+                            <div class="card" :style="{ 'filter': i.stock_quantity < 0 ? 'blur(10px)' : '' }">
+                                <div class="card-image">
+                                    <img :src="i.images[0].url" alt="">
                                 </div>
-                                <div class="card-rating">
-                                    <div class="card-rating-stars">
-                                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fstar.svg?alt=media&token=3ba8de8e-cc6d-423e-a62f-e36e8b62b228&_gl=1*9mof4n*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzMzguNDkuMC4w"
-                                            alt="">
-                                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fgray-star.svg?alt=media&token=e17a15d9-2f48-466a-8077-06b9fb9673bd&_gl=1*1fvygj6*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODIzNjMuMjQuMC4w"
-                                            alt="">
+                                <div class="card-text">
+                                    <div class="card-title">
+                                        {{ i.name }}
                                     </div>
-                                    <div class="card-rating-count">
-                                        <div class="card-rating-count-image">
-                                            <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Freviews.svg?alt=media&token=65c408f6-940a-4b30-82d1-411cab6d12bf&_gl=1*15nk9h9*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODI1MDQuNDYuMC4w"
-                                                alt="">
+                                    <div class="card-rating">
+                                        <div class="card-rating-stars">
+                                            <a-rate :value="i.reviews.length >= 0 ? 0 : calculateReviews()" /> &nbsp;
+
                                         </div>
-                                        <div class="card-rating-count-text">
-                                            {{ i.countRating }}
+                                        <div class="card-rating-count">
+                                            <div class="card-rating-count-image">
+                                                <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Freviews.svg?alt=media&token=65c408f6-940a-4b30-82d1-411cab6d12bf&_gl=1*15nk9h9*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODI1MDQuNDYuMC4w"
+                                                    alt="">
+                                            </div>
+                                            <div class="card-rating-count-text">
+                                                {{ i.reviews.length }}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <template v-if="i.discount === true">
                                     <div class="card-discount">
-                                        <p><strike>{{ i.oldprice }}</strike></p><span>{{ calculateDiscount(i.oldprice,
+                                        <p><strike>{{ i.oldPrice }} ₴</strike></p><span>{{ calculateDiscount(i.oldPrice,
                                             i.price) }}</span>
                                     </div>
-                                </template>
-                                <div class="card-price">
-                                    {{ i.price }}₴
-                                </div>
-                                <div class="card-liked">
-                                    <template v-if="i.liked === true">
-                                        <img src="" alt="">
-                                    </template>
-                                    <template v-else>
-                                        <img src="" alt="">
-                                    </template>
-                                </div>
-                                <div class="addToCart" @click="addToCart(idx)">
-                                    <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcart.svg?alt=media&token=0f861b5b-c2ff-4032-89d7-ddb78c69c635&_gl=1*2p0qzv*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODMwNzcuNDQuMC4w"
-                                        alt="">
+                                    <div class="card-price">
+                                        {{ i.price }}₴
+                                    </div>
+                                    <div class="card-liked">
+                                        <template v-if="i.liked === true">
+                                            <img src="" alt="">
+                                        </template>
+                                        <template v-else>
+                                            <img src="" alt="">
+                                        </template>
+                                    </div>
+                                    <div class="addToCart" @click="addToCart(idx)">
+                                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcart.svg?alt=media&token=0f861b5b-c2ff-4032-89d7-ddb78c69c635&_gl=1*2p0qzv*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODMwNzcuNDQuMC4w"
+                                            alt="">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </router-link>
+
                     </swiper-slide>
                 </template>
                 <template #navigation-prev>
@@ -80,70 +80,6 @@ export default {
     data() {
         return {
             products: [
-                {
-                    _id: '1',
-                    title: "Apple iPhone 13 128GB Midnight",
-                    liked: false,
-                    src: 'https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/images%2Fiphone.png?alt=media&token=563f5e5f-41b7-4ce1-ba0e-9b2c9bb8de2c&_gl=1*jp6uwn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODM1OTIuNTYuMC4w',
-                    stock_quantity: false,
-                    discount: true,
-                    oldprice: 29999,
-                    price: 19999,
-                    ratingVoid: 5,
-                    countRating: 10,
-                    discountPercentage: '',
-                },
-                {
-                    _id: '2',
-                    title: "Apple iPhone 13 128GB Midnight",
-                    liked: false,
-                    src: 'https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/images%2Fiphone.png?alt=media&token=563f5e5f-41b7-4ce1-ba0e-9b2c9bb8de2c&_gl=1*jp6uwn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODM1OTIuNTYuMC4w',
-                    stock_quantity: false,
-                    discount: true,
-                    oldprice: 29999,
-                    price: 19999,
-                    ratingVoid: 5,
-                    countRating: 10,
-                    discountPercentage: '',
-                }, {
-                    _id: '3',
-                    title: "Apple iPhone 13 128GB Midnight",
-                    liked: false,
-                    src: 'https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/images%2Fiphone.png?alt=media&token=563f5e5f-41b7-4ce1-ba0e-9b2c9bb8de2c&_gl=1*jp6uwn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODM1OTIuNTYuMC4w',
-                    stock_quantity: false,
-                    discount: true,
-                    oldprice: 29999,
-                    price: 19999,
-                    ratingVoid: 5,
-                    countRating: 10,
-                    discountPercentage: '',
-                }, {
-                    _id: '4',
-                    title: "Apple iPhone 13 128GB Midnight",
-                    liked: false,
-                    src: 'https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/images%2Fiphone.png?alt=media&token=563f5e5f-41b7-4ce1-ba0e-9b2c9bb8de2c&_gl=1*jp6uwn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODM1OTIuNTYuMC4w',
-                    stock_quantity: false,
-                    discount: true,
-                    oldprice: 29999,
-                    price: 19999,
-                    ratingVoid: 5,
-                    countRating: 10,
-                    discountPercentage: '',
-                },
-                {
-                    _id: '5',
-                    title: "Apple iPhone 13 128GB Midnight",
-                    liked: false,
-                    src: 'https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/images%2Fiphone.png?alt=media&token=563f5e5f-41b7-4ce1-ba0e-9b2c9bb8de2c&_gl=1*jp6uwn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODM1OTIuNTYuMC4w',
-                    stock_quantity: false,
-                    discount: true,
-                    oldprice: 29999,
-                    price: 19999,
-                    ratingVoid: 5,
-                    countRating: 10,
-                    discountPercentage: '',
-                },
-                // ...other products
             ],
             breakpoints: {
                 1220: {
@@ -186,6 +122,11 @@ export default {
             modules: [Navigation],
         };
     },
+    created() {
+        axios.get('http://88.cx.ua:3000/item/newProducts').then((response) =>
+            this.products = response.data
+        )
+    }
 };
 </script>
   
@@ -194,6 +135,7 @@ export default {
 <style lang="scss" scoped>
 .new {
     margin-bottom: 40px;
+
     &-title {
         font-size: 32px;
         text-align: center;
@@ -201,11 +143,33 @@ export default {
         margin-bottom: 40px;
     }
 }
+a {
+    color: #292929;
+}
+.card-image {
+    max-width: 220px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+
+    img {
+        width: 100%;
+    }
+}
+
+.card-rating-count {
+    padding-top: 15px;
+}
+
+.card-rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
 .mySwiper {
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 5px 5px 25px 0px rgba(0, 0, 0, 0.20);
-
 }
 </style>
