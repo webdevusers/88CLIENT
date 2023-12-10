@@ -14,11 +14,6 @@ const updateItemCount = (item) => {
     }
     cartStore.updateItemCount(item);
 }
-let loading = false;
-
-setTimeout(() => {
-    loading = false;
-}, 1);
 
 </script>
 <template>
@@ -61,6 +56,18 @@ setTimeout(() => {
                     <li class="align-left">
                         {{ item.price * item.count }} ₴
                     </li>
+                    <li class="deleteIcon" @click="removeItem(item)">
+                        <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            stroke="#292929">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M10 12L14 16M14 12L10 16M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6"
+                                    stroke="#292929" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                        </svg>
+                    </li>
                 </ul>
                 <div class="buttons-row">
                     <router-link to="/">
@@ -94,6 +101,7 @@ setTimeout(() => {
     <TheFooter />
 </template>
 <script>
+import { useCartStore } from '@/store/cart';
 export default {
     methods: {
         truncateTitle(title, length) {
@@ -102,7 +110,23 @@ export default {
             } else {
                 return title;
             }
+        },
+        removeItem(item) {
+            const cartStore = useCartStore();
+
+            // Remove item from cartStore
+            cartStore.removeItem(item);
+
+            // Remove item from local storage
+            const localUserCart = JSON.parse(window.localStorage.getItem("userCart"));
+
+            if (localUserCart) {
+                const updatedCart = localUserCart.filter(cartItem => cartItem._id !== item._id);
+                window.localStorage.setItem("userCart", JSON.stringify(updatedCart));
+            }
         }
+
+
     },
     // computed: {
     //     totalSum() {
@@ -119,11 +143,13 @@ export default {
         display: none;
     }
 }
+
 .price {
     @media (max-width: 768px) {
         display: none;
     }
 }
+
 .container-non-data {
     max-width: 360px;
     margin: 0 auto;
@@ -192,16 +218,20 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
     @media (max-width: 768px) {
         flex-direction: column-reverse;
+
         a {
             margin-bottom: 16px;
             width: 100%;
         }
+
         .button {
             width: 100%;
         }
     }
+
     a {
         color: #292929;
     }
@@ -349,6 +379,7 @@ export default {
     font-weight: 400;
     line-height: normal;
     letter-spacing: 1px;
+
     @media (max-width: 768px) {
         padding: 15px !important;
         display: flex;
@@ -365,6 +396,7 @@ export default {
 .product {
     align-items: center;
     padding: 20px 20px;
+    position: relative;
 
     .row {
         display: flex;
@@ -384,14 +416,28 @@ export default {
         }
     }
 }
+
+.deleteIcon {
+    position: absolute;
+    max-width: 32px;
+    right: 15px;
+
+    svg {
+        max-width: 32px;
+    }
+
+}
+
 @media (max-width: 768px) {
     .row-name {
         font-size: 16px !important;
     }
+
     .ant-input-number {
         width: 50px !important;
     }
 }
+
 .align-left {
     text-align: center !important;
 }

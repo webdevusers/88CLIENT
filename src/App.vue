@@ -3,6 +3,11 @@
 </template>
 <script setup>
 import { RouterView } from 'vue-router'
+
+import { useCartStore } from './store/cart';
+
+const cartStore = useCartStore();
+cartStore.initializeItemsFromLocalStorage();
 </script>
 <!-- <script>
 import { ref, onBeforeMount } from "vue";

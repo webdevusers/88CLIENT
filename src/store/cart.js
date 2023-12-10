@@ -28,5 +28,12 @@ export const useCartStore = defineStore("cart", {
     clearCart() {
       this.items = [];
     },
+    initializeItemsFromLocalStorage() {
+      const userCart = localStorage.getItem("userCart");
+      if (userCart) {
+        const parsedCart = JSON.parse(userCart);
+        this.items = parsedCart.map((item) => ({ ...item, count: 1 }));
+      }
+    },
   },
 });

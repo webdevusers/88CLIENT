@@ -22,7 +22,7 @@
                 <template v-for="(i, idx) in products" :key="idx">
                     <pc :title="i.name" :srcImage="i.images[0].url" :liked="i.liked" :discount="i.discount"
                         :oldprice="i.oldPrice" :price="i.price" :stock_quantity="i.stock_quantity"
-                        :ratingVoid="i.reviews.length" :countRating="i.reviews.length" :id="i._id"/>
+                        :ratingVoid="i.reviews.length" :countRating="i.reviews.length" :id="i._id" />
                 </template>
             </div>
 
@@ -43,13 +43,15 @@
         </template>
 
         <div class="btn btn-show">
-            <div class="btn-text">
-                Перейти до усіх товарів
-            </div>
-            <div class="btn-img">
-                <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Farrow.svg?alt=media&token=cedfac15-83e9-4e8a-9512-f6585e3b10b1&_gl=1*1vik1ed*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODkzMjI2My4xNC4xLjE2OTg5MzIyOTYuMjcuMC4w"
-                    alt="">
-            </div>
+            <router-link :to="{ name: 'subcategory', params: { query: choosenCategoryid || 123 } }">
+                <div class="btn-text">
+                    Перейти до усіх товарів
+                </div>
+                <div class="btn-img">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Farrow.svg?alt=media&token=cedfac15-83e9-4e8a-9512-f6585e3b10b1&_gl=1*1vik1ed*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODkzMjI2My4xNC4xLjE2OTg5MzIyOTYuMjcuMC4w"
+                        alt="">
+                </div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -69,7 +71,8 @@ export default {
         return {
             products: [
             ],
-            choosenCategory: ''
+            choosenCategory: '',
+            choosenCategoryid: ''
         };
     },
     methods: {
@@ -102,6 +105,7 @@ export default {
                 this.products = response.data
             })
             this.choosenCategory = name;
+            this.choosenCategoryid = id;
         }
     },
     created() {
@@ -163,10 +167,12 @@ export default {
                 padding: 7.5px 6px;
                 border-radius: 10px;
                 transition: .3s;
+
                 &:hover {
                     background: #EFCA00;
 
                 }
+
                 &.active {
                     background: #EFCA00;
                 }
@@ -217,7 +223,6 @@ export default {
     font-family: '88';
     cursor: pointer;
     user-select: none;
-
     &-text {
         margin-right: 10px;
     }
