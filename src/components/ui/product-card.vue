@@ -2,7 +2,7 @@
     <router-link :to="{ name: 'product', params: { query: id || 123 } }">
         <div class="card" :style="{ 'opacity': this.stock_quantity ? '' : '.3' }">
             <div class="card-image">
-                <img :src="srcImage" alt="">
+                <img :src="srcImage || " alt="">
             </div>
             <div class="card-text">
                 <div class="card-title">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="card-discount">
-                    <p><strike>{{ oldprice.toFixed(0) }}₴</strike></p><span>{{ calculateDiscount() }}</span>
+                    <p>{{ oldprice.toFixed(0) }}₴</p><span>{{ calculateDiscount() }}</span>
                 </div>
                 <div class="card-price">
                     {{ price.toFixed(0) }}₴
@@ -36,7 +36,7 @@
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fliked.svg?alt=media&token=84514119-702d-4b07-9be8-009277be6779&_gl=1*14lvitn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzUzOC42MC4wLjA."
                             alt="" /> </template>
                 </div>
-                <div class="addToCart" @click="addToCart(this._id)"
+                <div class="addToCart"
                     :style="{ 'opacity': this.stock_quantity ? '' : '.7', 'background': this.stock_quantity ? '' : '#00000090' }">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path
@@ -69,7 +69,7 @@ export default {
         price: Number,
         ratingVoid: Number,
         countRating: Number,
-        stock_quantity: Boolean,
+        stock_quantity: Number,
     },
     data() {
         return {

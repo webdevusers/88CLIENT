@@ -86,7 +86,7 @@ loader = false;
                                     </div>
                                 </li>
                                 <li class="price">
-                                    {{ item.price * item.count }} ₴
+                                    {{ (item.price * item.count).toFixed(0) }} ₴
                                 </li>
                             </ul>
                             <div class="label">
@@ -94,7 +94,7 @@ loader = false;
                                     Сумма
                                 </div>
                                 <div class="label-value">
-                                    {{ totalCost }} ₴
+                                    {{ totalCost.toFixed(0) }} ₴
                                 </div>
                             </div>
                             <div class="label">

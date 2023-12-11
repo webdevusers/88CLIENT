@@ -246,7 +246,9 @@ export default {
         }
     }
 }
-
+.catalogModal-content__grid {
+    grid-gap: 20px !important;
+}
 .catalogModal-content__grid {
     ul>li {
         list-style: none;
@@ -367,8 +369,7 @@ export default {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             grid-gap: 50px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            margin: 1rem auto;
 
             &-title {
                 font-size: 18px;

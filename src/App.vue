@@ -1,13 +1,43 @@
 <template>
-  <RouterView />
+  <RouterView v-if="renderComponent" />
+  <template v-else>
+    <TheHeader />
+    <TheAction />
+    <div class="circle-container">
+      <svg fill="none" class="circle-svg-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle class="circle" cx="50" cy="50" r="45" />
+      </svg>
+    </div>
+    <TheFooter />
+  </template>
 </template>
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
+import TheHeader from './components/base/TheHeader.vue';
+import TheAction from './components/base/TheAction.vue';
+import TheFooter from './components/base/TheFooter.vue';
 
 import { useCartStore } from './store/cart';
 
 const cartStore = useCartStore();
 cartStore.initializeItemsFromLocalStorage();
+
+import { nextTick, ref, watch } from 'vue';
+
+const renderComponent = ref(true);
+const route = useRoute();
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+watch(() => route.fullPath, async () => {
+  renderComponent.value = false;
+  await nextTick();
+
+  renderComponent.value = true;
+  scrollToTop();
+});
 </script>
 <!-- <script>
 import { ref, onBeforeMount } from "vue";
@@ -34,15 +64,123 @@ export default {
 };
 </script> -->
 <style lang="scss">
+.circle-svg-1 {
+  --_circle-radius: 45px;
+  --_svg-width: 100px;
+  --_stroke-width: calc(var(--_svg-width) - 2 * var(--_circle-radius));
+  --_animation_duration: 8000ms;
+  --_angle: 1.6;
+
+  width: var(--_svg-width);
+
+  aspect-ratio: 1/1;
+
+  stroke: #EFCA00;
+  stroke-width: var(--_stroke-width);
+
+  animation: loader_1 var(--_animation_duration) infinite,
+    spin_1 3000ms infinite linear;
+}
+
+@keyframes loader_1 {
+
+  /**
+    small_arc == 30deg
+  
+    0.1666667 == small_arc / 180
+    1.83333 == 2 - small_arc
+  
+    rotation step == 360 - (2 * small_arc) == 300
+    number of animation steps == (360/small_arc + 1) == 13
+    animation percent step == 100/(360/small_arc) == 8.33
+  */
+  0% {
+    rotate: 0deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+
+  8.33% {
+    rotate: 0deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 1.83333333) 1000;
+  }
+
+  16.66% {
+    rotate: 300deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+
+  25% {
+    rotate: 300deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 1.83333333) 1000;
+  }
+
+  33.33% {
+    rotate: 600deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+
+  41.66% {
+    rotate: 600deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 1.83333333) 1000;
+  }
+
+  50% {
+    rotate: 900deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+
+  58.33% {
+    rotate: 900deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 1.83333333) 1000;
+  }
+
+  66.66% {
+    rotate: 1200deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+
+  75% {
+    rotate: 1200deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 1.83333333) 1000;
+  }
+
+  83.33% {
+    rotate: 1500deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+
+  91.66% {
+    rotate: 1500deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 1.83333333) 1000;
+  }
+
+  100% {
+    rotate: 1800deg;
+    stroke-dasharray: calc(var(--_circle-radius) * 3.1415 * 0.16666667) 1000;
+  }
+}
+
+@keyframes spin_1 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @font-face {
   font-family: '88';
   src: url('/fonts/88.ttf');
 }
+
 @media (max-width: 768px) {
   .ant-rate {
     font-size: 16px !important;
   }
 }
+
 * {
   padding: 0;
   margin: 0;

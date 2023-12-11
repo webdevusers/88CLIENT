@@ -291,8 +291,8 @@ export default {
     axios.get(`http://88.cx.ua:3000/item/getSubcategory?id=${id}&page=1`)
       .then(
         (response) => {
-          this.products = response.data
-          this.subcategoryName = response.data.name
+          this.products = response.data.items
+          this.subcategoryName = response.data.categoryName
           this.updateProducts();
         },
       );
