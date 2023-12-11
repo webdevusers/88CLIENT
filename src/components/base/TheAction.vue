@@ -1,5 +1,6 @@
 <script>
 import Catalog from '../ui/catalog.vue'
+import regModal from './Authentication/regModal.vue'
 import axios from 'axios'
 export default {
     props: {
@@ -38,7 +39,13 @@ export default {
             ],
             scrollStyle: {
                 position: 'relative'
-            }
+            },
+            modalAuthentication: false
+        }
+    },
+    methods: {
+        updateRegModal() {
+            this.modalAuthentication = false
         }
     },
     mounted() {
@@ -88,7 +95,8 @@ export default {
 
     },
     components: {
-        Catalog
+        Catalog,
+        regModal
     },
 }
 </script>
@@ -126,7 +134,7 @@ export default {
                     </div>
                 </div>
                 <div class="item-personal">
-                    <div class="item-personal-icon profile">
+                    <div class="item-personal-icon profile" @click="modalAuthentication = !modalAuthentication">
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fpersonal.svg?alt=media&token=34d47753-03d1-4de5-9ecb-5bbb85cf3a2f&_gl=1*vcztn4*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzUyNC4xNC4wLjA."
                             alt="" />
                     </div>
@@ -164,16 +172,26 @@ export default {
             </div>
         </div>
         <ul class="burger-menu-list">
-            <router-link :to="i.link" v-for="(i, idx) in links" :key="idx">
+            <router-link to="/">
                 <li class="burger-menu-list-item">
                     <div class="burger-menu-list-item-img">
-                        <img :src="i.src" alt="" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fhome.svg?alt=media&token=3ed508e5-44f1-4303-b670-527c5c89ef51&_gl=1*vv8pwz*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTM1NzYuNDUuMC4w"
+                            alt="" />
                     </div>
                     <div class="burger-menu-list-item-text">
-                        <p>{{ i.name }}</p>
+                        <p>Головна</p>
                     </div>
                 </li>
             </router-link>
+            <li class="burger-menu-list-item" @click="openCatalog = !openCatalog">
+                <div class="burger-menu-list-item-img">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcatalog.svg?alt=media&token=12b8ab7b-84ef-4c7a-87f2-6375df1b7ebf&_gl=1*i591lm*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTM1OTUuMjYuMC4w"
+                        alt="" />
+                </div>
+                <div class="burger-menu-list-item-text">
+                    <p>Каталог товарів</p>
+                </div>
+            </li>
         </ul>
         <div class="burger-menu-categories">
             <router-link to="/categories" class="burger-menu-categories-link">
@@ -269,11 +287,14 @@ export default {
             </div>
         </template>
     </div>
-    <template v-if="openCatalog">
+    <div v-if="openCatalog">
         <div class="background" @click="openCatalog = false">
 
         </div>
         <Catalog @updateCategories="updateCategories" style="z-index: 10000;" :catalogModal="openCatalog" />
+    </div>
+    <template v-if="modalAuthentication">
+        <regModal @regModal="updateRegModal"/>
     </template>
 </template>
 <style lang="scss" scoped>
@@ -284,6 +305,10 @@ export default {
     background: #00000050;
     top: 0;
     z-index: 9999;
+    @media (max-width: 968px) {
+        display: none;
+        visibility: none;
+    }
 }
 
 .contact-button {
@@ -439,12 +464,11 @@ export default {
         a {
             text-decoration: none;
             color: #292929;
-
-            li {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
+        }
+        li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         &::before {
@@ -471,6 +495,7 @@ export default {
         }
     }
 }
+
 .action {
     background: #292929;
     margin-bottom: 64px;
@@ -639,8 +664,8 @@ export default {
             }
         }
     }
+
     .profile {
         display: none !important;
     }
-}
-</style>
+}</style>

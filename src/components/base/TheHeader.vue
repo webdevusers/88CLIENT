@@ -84,7 +84,7 @@ export default {
         { name: 'Головна', link: '/' },
         { name: 'Бонуси', link: '/discounts' },
         { name: 'О нас', link: '/about' },
-        { name: 'Умови', link: '/services' },
+        { name: 'Умови', link: '/conditions' },
         { name: 'Допомога', link: '/help' }
       ],
       contactDropdown: false,

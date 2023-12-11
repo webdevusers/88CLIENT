@@ -992,7 +992,6 @@ export default {
             }
 
             @media (max-width: 720px) {
-              margin-top: 20px;
               width: 100%;
               justify-content: center;
 
@@ -1121,8 +1120,16 @@ export default {
   justify-content: center;
   user-select: none;
   cursor: not-allowed;
+  @media (max-width: 720px) {
+    width: 100%;
+    margin-right: 0 !important;
+  }
 }
-
+@media (max-width: 720px) {
+  .tabs_product__about_options_price_cost {
+    margin-bottom: 20px;
+  }
+}
 .feature {
   display: block;
   margin: 0;

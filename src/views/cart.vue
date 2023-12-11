@@ -185,7 +185,7 @@ export default {
 
         span {
             color: #000;
-            font-family: DIN Pro;
+            font-family: '88';
             font-size: 15px;
             font-weight: 400;
             line-height: 21px;
@@ -194,7 +194,7 @@ export default {
 
     &-title {
         color: #292929;
-        font-family: DIN Pro;
+        font-family: '88';
         font-size: 32px;
         font-weight: 400;
         letter-spacing: 1.44px;
@@ -424,6 +424,10 @@ export default {
 
     svg {
         max-width: 32px;
+    }
+    @media (max-width: 768px) {
+        right: 100px !important;
+        bottom: -5px;
     }
 
 }

@@ -524,7 +524,7 @@ input[type="number"] {
     padding-top: 40px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 45px;
+    grid-gap: 25px;
 
     @media (max-width: 968px) {
       grid-template-columns: repeat(3, 1fr);

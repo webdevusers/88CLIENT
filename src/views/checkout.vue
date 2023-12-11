@@ -198,7 +198,7 @@ ${itemsMessage}
             if (this.checked) {
                 this.saveInformation();
             }
-
+            localStorage.setItem("userCart", [])
             this.clearForm();
         },
         saveInformation() {

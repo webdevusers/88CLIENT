@@ -23,10 +23,10 @@
                     </div>
                 </div>
                 <div class="card-discount">
-                    <p><strike>{{ oldprice }}₴</strike></p><span>{{ calculateDiscount() }}</span>
+                    <p><strike>{{ oldprice.toFixed(0) }}₴</strike></p><span>{{ calculateDiscount() }}</span>
                 </div>
                 <div class="card-price">
-                    {{ price }}₴
+                    {{ price.toFixed(0) }}₴
                 </div>
                 <div class="card-liked">
                     <template v-if="liked === true">
@@ -127,6 +127,9 @@ a {
     flex-direction: column;
     border: 1px solid transparent;
     transition: .3s;
+    padding-right: 10px;
+    height: 100%;
+    max-height: 420px;
 
     &:hover {
         box-shadow: unset;
@@ -138,6 +141,9 @@ a {
             svg {
                 stroke: #EFCA00 !important;
             }
+        }
+        .card-title {
+            color: #0027ab !important;
         }
 
     }
@@ -171,7 +177,6 @@ a {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding-right: 16px;
 
         &-count {
             display: flex;
@@ -218,10 +223,14 @@ a {
 
 @media (max-width: 450px) {
     .card {
-        min-height: 380px;
-
+        min-height: unset !important;
         &-image {
             padding: 0 5px;
+            max-width: 130px;
+            margin: 0 auto;
+            img {
+                width: 100%;
+            }
         }
 
         &-title {
