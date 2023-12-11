@@ -2,34 +2,54 @@
 import TheHeader from '@/components/base/TheHeader.vue';
 import TheAction from '@/components/base/TheAction.vue';
 import TheFooter from '@/components/base/TheFooter.vue';
-import { useRoute } from 'vue-router';
-import { nextTick, ref, watch } from 'vue';
 
-const renderComponent = ref(true);
+import axios from 'axios'
+import pc from '../components/ui/product-card.vue'
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+const current = ref(1);
+const loading = ref(true);
+const products = ref([]);
+const pageCount = ref(null);
+const requestText = ref('');
+
 const route = useRoute();
 
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+const fetch = (page) => {
+    loading.value = true;
+    axios.get(`http://88.cx.ua:3000/item/search?query=${requestText.value}&page=${page}`).then(
+        (response) => {
+            products.value = response.data.results;
+            pageCount.value = response.data.totalPages;
+            loading.value = false;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 };
 
-watch(() => route.fullPath, async () => {
-  renderComponent.value = false;
-  await nextTick();
-  renderComponent.value = true;
-  scrollToTop();
+onMounted(() => {
+    const currentParams = { ...route.query };
+    requestText.value = currentParams.query;
+
+    axios.get(`http://88.cx.ua:3000/item/search?query=${requestText.value}&page=1`).then(
+        (response) => {
+            products.value = response.data.results;
+            pageCount.value = response.data.totalPages;
+            loading.value = false;
+        });
 });
 </script>
 <template>
     <TheHeader />
     <TheAction />
-    <template v-if="loading || renderComponent === false">
+    <template v-if="loading">
         <div class="circle-container">
             <svg fill="none" class="circle-svg-1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <circle class="circle" cx="50" cy="50" r="45" />
             </svg>
         </div>
     </template>
-    <div class="content" v-if="renderComponent">
+    <div class="content">
         <div class="content__wrap wrap">
             <div class="content-breadcrumbs">
                 <router-link to="/">
@@ -38,7 +58,7 @@ watch(() => route.fullPath, async () => {
                 <span>Пошук</span>
             </div>
             <div class="content-title">
-                Пошуковий запит <span>"{{ this.requestText }}"</span>
+                Пошуковий запит <span>"{{ requestText }}"</span>
             </div>
             <div class="content-items">
                 <template v-for="(i, idx) in products" :key="idx">
@@ -54,56 +74,11 @@ watch(() => route.fullPath, async () => {
 
     <TheFooter />
 </template>
-<script>
-import axios from 'axios'
-import pc from '../components/ui/product-card.vue'
-
-import { ref } from 'vue';
-const current = ref(1);
-
-export default {
-    data() {
-        return {
-            loading: true,
-            requestText: '',
-            products: [],
-            pageCount: null,
-        }
-    },
-    components: [pc],
-    setup() {
-
-    },
-    created() {
-        const currentParams = { ...this.$route.query };
-        const request = currentParams.query
-        this.requestText = request;
-        axios.get(`http://88.cx.ua:3000/item/search?query=${request}&page=1`).then(
-            (response) => {
-                this.products = response.data.results;
-                this.pageCount = response.data.totalPages;
-                this.loading = false;
-            });
-    },
-    methods: {
-        fetch(page) {
-            this.loading = true;
-            console.log(page)
-            axios.get(`http://88.cx.ua:3000/item/search?query=${this.requestText}&page=${page}`).then(
-                (response) => {
-                    this.products = response.data.results;
-                    this.pageCount = response.data.totalPages;
-                    this.loading = false;
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-        }
-    },
-}
-</script>
 <style lang="scss">
 .ant-pagination-options {
     display: none !important;
 }
+
 .circle-svg-1 {
     --_circle-radius: 45px;
     --_svg-width: 100px;

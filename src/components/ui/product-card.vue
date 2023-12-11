@@ -2,7 +2,7 @@
     <router-link :to="{ name: 'product', params: { query: id || 123 } }">
         <div class="card" :style="{ 'opacity': this.stock_quantity ? '' : '.3' }">
             <div class="card-image">
-                <img :src="srcImage || " alt="">
+                <img :src="srcImage" alt="">
             </div>
             <div class="card-text">
                 <div class="card-title">
