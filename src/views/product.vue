@@ -111,8 +111,8 @@
                 </a-flex>
                 <a-flex class="tabs_product__about_options_price">
                   <div>
-                    <p class="tabs_product__about_options_price_old_cost">{{ product.oldPrice }} ₴</p>
-                    <p class="tabs_product__about_options_price_cost">{{ product.price }} ₴</p>
+                    <p class="tabs_product__about_options_price_old_cost">{{ product.oldPrice.toFixed() }} ₴</p>
+                    <p class="tabs_product__about_options_price_cost">{{ product.price.toFixed() }} ₴</p>
                   </div>
                   <div class="tabs_product__about_options_price_button_buy">
                     <template v-if="addedToCart">

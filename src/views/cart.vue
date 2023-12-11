@@ -48,13 +48,13 @@ const updateItemCount = (item) => {
                         </div>
                     </li>
                     <li class="align-left price">
-                        {{ item.price }} ₴
+                        {{ item.price.toFixed(0) }} ₴
                     </li>
                     <li class="align-left">
                         <a-input-number v-model:value="item.count" :min="1" :max="1000" @onChange="updateItemCount(item)" />
                     </li>
                     <li class="align-left">
-                        {{ item.price * item.count }} ₴
+                        {{ (item.price * item.count).toFixed(0) }} ₴
                     </li>
                     <li class="deleteIcon" @click="removeItem(item)">
                         <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
