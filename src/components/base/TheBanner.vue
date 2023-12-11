@@ -31,7 +31,6 @@ export default {
   setup() {
     const slides = [
       'https://firebasestorage.googleapis.com/v0/b/eshop-5be01.appspot.com/o/banner.webp?alt=media&token=971b7fb2-9008-45c8-8e40-788ceb115190',
-      'https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/images%2Fbanner.png?alt=media&token=c726fbe4-b1c9-4365-88f2-59f9bb7692f0&_gl=1*1sn246c*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc3MTYzNi44LjEuMTY5ODc3NDMwNC40Mi4wLjA.'
     ]
 
     return {
@@ -62,12 +61,19 @@ export default {
 .mySwiper {
   max-width: 840px !important;
 }
+.swiper-slide {
+  max-width: 840px;
+  img {
+    max-width: 840px;
+  }
+}
 @media (max-width: 1024px) {
   .mySwiper {
     max-width: 100% !important;
     width: 100%;
     img {
       max-width: 840px;
+      max-height: 400px;
       width: 100%;
     }
   }

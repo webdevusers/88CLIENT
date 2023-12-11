@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="card-text">
                                     <div class="card-title">
-                                        {{ i.name }}
+                                        {{ truncateTitle(i.name, 68) }}
                                     </div>
                                     <div class="card-rating">
                                         <div class="card-rating-stars">
@@ -112,6 +112,13 @@ export default {
                 id,
             });
         },
+        truncateTitle(title, length) {
+            if (title.length > length) {
+                return title.substring(0, length) + '...';
+            } else {
+                return title;
+            }
+        }
     },
     components: {
         Swiper,
@@ -133,6 +140,24 @@ export default {
   
 
 <style lang="scss" scoped>
+.card {
+    border: 1px solid transparent;
+    transition: .3s;
+
+    &:hover {
+        box-shadow: unset;
+        border-color: #EFCA00;
+
+        .addToCart {
+            background-color: #EFCA0080;
+
+            svg {
+                stroke: #EFCA00 !important;
+            }
+        }
+
+    }
+}
 .new {
     margin-bottom: 40px;
 
@@ -143,9 +168,11 @@ export default {
         margin-bottom: 40px;
     }
 }
+
 a {
     color: #292929;
 }
+
 .card-image {
     max-width: 220px;
     width: 100%;

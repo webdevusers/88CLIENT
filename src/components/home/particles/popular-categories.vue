@@ -22,7 +22,7 @@
                 <template v-for="(i, idx) in products" :key="idx">
                     <pc :title="i.name" :srcImage="i.images[0].url" :liked="i.liked" :discount="i.discount"
                         :oldprice="i.oldPrice" :price="i.price" :stock_quantity="i.stock_quantity"
-                        :ratingVoid="i.reviews.length" :countRating="i.reviews.length" :id="i._id"/>
+                        :ratingVoid="i.reviews.length" :countRating="i.reviews.length" :id="i._id" />
                 </template>
             </div>
 
@@ -43,13 +43,16 @@
         </template>
 
         <div class="btn btn-show">
-            <div class="btn-text">
-                Перейти до усіх товарів
-            </div>
-            <div class="btn-img">
-                <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Farrow.svg?alt=media&token=cedfac15-83e9-4e8a-9512-f6585e3b10b1&_gl=1*1vik1ed*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODkzMjI2My4xNC4xLjE2OTg5MzIyOTYuMjcuMC4w"
-                    alt="">
-            </div>
+            <router-link :to="{ name: 'subcategory', params: { query: choosenCategoryid || 123 } }">
+                <div class="btn-text">
+                    Перейти до усіх товарів
+                </div>
+                <div class="btn-img">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="9" viewBox="0 0 16 9" fill="none">
+                        <path d="M0.751468 0.0313749C0.469667 0.12409 0.216047 0.346606 0.0751468 0.624751C0.00939335 0.757643 0 0.822543 0 1.10378C0 1.40047 0.00626223 1.44373 0.0876712 1.59826C0.162818 1.73733 0.845401 2.42651 3.73542 5.28213C6.69119 8.20265 7.32681 8.81457 7.48337 8.89801C7.66184 8.99382 7.68689 9 8 9C8.31311 9 8.33816 8.99382 8.51663 8.89801C8.67632 8.81457 9.30568 8.20574 12.2771 5.26668C15.1108 2.46669 15.8622 1.70643 15.9249 1.58281C15.9906 1.44991 16 1.38501 16 1.10378C16 0.807091 15.9906 0.763824 15.9092 0.603117C15.7996 0.389874 15.618 0.210625 15.3894 0.0931854C15.2329 0.0159225 15.1859 0.00665092 14.9041 0.00665092C14.3562 0.00665092 14.6693 -0.262222 11.1249 3.23313L8 6.31127L4.87828 3.23313C1.3683 -0.222046 1.64697 0.0159225 1.14286 0.000470161C0.986301 -0.00261974 0.826614 0.00974178 0.751468 0.0313749Z" fill="white"/>
+                      </svg>
+                </div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -59,7 +62,7 @@ import pc from '../../ui/product-card.vue'
 <script>
 import axios from 'axios';
 import { onBeforeMount } from "vue";
-import { useApiStore } from "@/store/store";
+// import { useApiStore } from "@/store/store";
 
 export default {
     props: {
@@ -69,7 +72,8 @@ export default {
         return {
             products: [
             ],
-            choosenCategory: ''
+            choosenCategory: '',
+            choosenCategoryid: ''
         };
     },
     methods: {
@@ -102,6 +106,7 @@ export default {
                 this.products = response.data
             })
             this.choosenCategory = name;
+            this.choosenCategoryid = id;
         }
     },
     created() {
@@ -160,8 +165,14 @@ export default {
                 flex-direction: row;
                 align-items: center;
                 transition: .7s;
-                padding: 7.5px 5px;
+                padding: 7.5px 6px;
                 border-radius: 10px;
+                transition: .3s;
+
+                &:hover {
+                    background: #EFCA00;
+
+                }
 
                 &.active {
                     background: #EFCA00;
@@ -202,24 +213,25 @@ export default {
     max-width: 250px;
     width: 100%;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
     padding: 15px 0;
     border-radius: 10px;
     font-size: 18px;
     font-family: '88';
     cursor: pointer;
     user-select: none;
-
+    a {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
     &-text {
         margin-right: 10px;
     }
 
     &-img {
-        img {
+        svg {
             transform: rotate(270deg);
         }
     }
@@ -230,7 +242,7 @@ export default {
     padding-top: 40px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 45px;
+    grid-gap: 25px;
 
     @media (max-width: 968px) {
         grid-template-columns: repeat(3, 1fr);

@@ -1,5 +1,5 @@
 <template>
-    <div ref="burgerMenuOff">
+    <!-- <div ref="burgerMenuOff"> -->
         <TheHeader />
         <TheAction :burgerMenu="showBurgerMenu" />
         <div ref="burgerMenu">
@@ -25,22 +25,22 @@
         </div>
         <catalog :catalog-modal="openModal" />
         <TheFooter />
-    </div>
+    <!-- </div> -->
 </template>
 <script>
 import Hammer from 'hammerjs';
 import catalog from '../ui/catalog.vue'
 export default {
-    mounted() {
-        this.hammer = new Hammer(this.$refs.burgerMenu);
-        this.hammer.on('swiperight', this.handleSwipeRight);
-        this.hammer = new Hammer(this.$refs.burgerMenuOff)
-        this.hammer.on('swipeleft', this.handleSwipeLeft)
-    },
-    beforeUnmount() {
-        this.hammer.off('swiperight', this.handleSwipeRight);
-        this.hammer.off('swiperleft', this.handleSwipeLeft)
-    },
+    // mounted() {
+    //     this.hammer = new Hammer(this.$refs.burgerMenu);
+    //     this.hammer.on('swiperight', this.handleSwipeRight);
+    //     this.hammer = new Hammer(this.$refs.burgerMenuOff)
+    //     this.hammer.on('swipeleft', this.handleSwipeLeft)
+    // },
+    // beforeUnmount() {
+    //     this.hammer.off('swiperight', this.handleSwipeRight);
+    //     this.hammer.off('swiperleft', this.handleSwipeLeft)
+    // },
     data() {
         return {
             categories: [],
@@ -126,7 +126,7 @@ import TheFooter from '../base/TheFooter.vue'
     .welcome {
         display: grid;
         padding: 0;
-        grid-template-columns: 30% 70%;
+        grid-template-columns: 28% 75%;
         grid-gap: 30px;
         justify-content: space-between;
         margin-bottom: 64px;

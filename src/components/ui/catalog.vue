@@ -1,5 +1,5 @@
 <template>
-    <template v-if="catalogModal">
+    <div v-if="catalogModal" :style="{ display: catalogModal ? 'block' : 'none' }">
         <div class="catalogModal">
             <div id="showMobile">
                 <div class="logo">
@@ -57,7 +57,8 @@
                         <ul>
                             <div class="title">
 
-                                <svg @click="categoryModal = false, categoryModalContent = []" style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
+                                <svg @click="categoryModal = false, categoryModalContent = []"
+                                    style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" stroke="#333333">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -106,12 +107,12 @@
                 </div>
             </div>
         </div>
-    </template>
+    </div>
 </template>
   
 <script>
 import { ref, onBeforeMount } from "vue";
-import { useApiStore } from "../../store/store";
+// import { useApiStore } from "../../store/store";
 import axios from "axios";
 
 export default {
@@ -176,7 +177,7 @@ export default {
 <style scoped lang="scss">
 .catalogModal-categories {
     position: absolute;
-    top: 110px;
+    top: 100px;
     background: #f8f8f8;
     height: 100vh;
     width: 100%;
@@ -193,6 +194,7 @@ export default {
             display: flex;
             flex-direction: row;
             align-items: center;
+
             svg {
                 rotate: 90deg;
                 margin-right: 15px;
@@ -290,13 +292,14 @@ export default {
             width: 100% !important;
 
             ul {
-                overflow-y:scroll;
+                overflow-y: scroll;
                 padding: 0 5px !important;
 
                 li {
                     img {
                         min-width: 40px;
                     }
+
                     p {
                         width: 90% !important;
                         font-size: 18px !important;

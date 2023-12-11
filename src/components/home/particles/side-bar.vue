@@ -24,7 +24,7 @@
 
 <script>
 import { ref, onBeforeMount } from "vue";
-import { useApiStore } from "@/store/store";
+// import { useApiStore } from "@/store/store";
 import axios from "axios";
 
 export default {

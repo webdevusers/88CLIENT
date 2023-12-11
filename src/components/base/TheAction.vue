@@ -1,6 +1,7 @@
 <script>
 import Catalog from '../ui/catalog.vue'
-
+import regModal from './Authentication/regModal.vue'
+import axios from 'axios'
 export default {
     props: {
         burgerMenu: Boolean
@@ -38,7 +39,13 @@ export default {
             ],
             scrollStyle: {
                 position: 'relative'
-            }
+            },
+            modalAuthentication: false
+        }
+    },
+    methods: {
+        updateRegModal() {
+            this.modalAuthentication = false
         }
     },
     mounted() {
@@ -73,10 +80,23 @@ export default {
         updateCategories(val) {
             this.$emit('updateCategories', val)
             console.log(val)
+        },
+        search() {
+            if (this.request.length > 4) {
+                setTimeout(() => {
+                    axios.get(`http://88.cx.ua:3000/item/search?query=${this.request}`).then(
+                        (response) => {
+                            console.log(response.data)
+                        }
+                    );
+                }, 2000);
+            }
         }
+
     },
     components: {
-        Catalog
+        Catalog,
+        regModal
     },
 }
 </script>
@@ -106,7 +126,7 @@ export default {
                 </template>
                 <div class="item-search">
                     <div class="item-search-input">
-                        <input type="text" placeholder="Я хочу знайти..." v-model="request" />
+                        <input type="text" placeholder="Я хочу знайти..." v-model="request" @input="search" />
                     </div>
                     <div class="item-search-icon">
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fsearch.svg?alt=media&token=184c8d9c-e018-4e03-86c4-0954eb961a20&_gl=1*1bmk89y*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzQ5Ni40Mi4wLjA."
@@ -114,7 +134,7 @@ export default {
                     </div>
                 </div>
                 <div class="item-personal">
-                    <div class="item-personal-icon">
+                    <div class="item-personal-icon profile" @click="modalAuthentication = !modalAuthentication">
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fpersonal.svg?alt=media&token=34d47753-03d1-4de5-9ecb-5bbb85cf3a2f&_gl=1*vcztn4*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzUyNC4xNC4wLjA."
                             alt="" />
                     </div>
@@ -122,10 +142,12 @@ export default {
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fliked.svg?alt=media&token=84514119-702d-4b07-9be8-009277be6779&_gl=1*14lvitn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzUzOC42MC4wLjA."
                             alt="" />
                     </div>
-                    <div class="item-personal-icon">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcart.svg?alt=media&token=0f861b5b-c2ff-4032-89d7-ddb78c69c635&_gl=1*z3m9i8*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzU0Ny41MS4wLjA."
-                            alt="" />
-                    </div>
+                    <router-link to="/cart" class="cart">
+                        <div class="item-personal-icon">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcart.svg?alt=media&token=0f861b5b-c2ff-4032-89d7-ddb78c69c635&_gl=1*z3m9i8*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzU0Ny41MS4wLjA."
+                                alt="" />
+                        </div>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -150,16 +172,26 @@ export default {
             </div>
         </div>
         <ul class="burger-menu-list">
-            <router-link :to="i.link" v-for="(i, idx) in links" :key="idx">
+            <router-link to="/">
                 <li class="burger-menu-list-item">
                     <div class="burger-menu-list-item-img">
-                        <img :src="i.src" alt="" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fhome.svg?alt=media&token=3ed508e5-44f1-4303-b670-527c5c89ef51&_gl=1*vv8pwz*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTM1NzYuNDUuMC4w"
+                            alt="" />
                     </div>
                     <div class="burger-menu-list-item-text">
-                        <p>{{ i.name }}</p>
+                        <p>Головна</p>
                     </div>
                 </li>
             </router-link>
+            <li class="burger-menu-list-item" @click="openCatalog = !openCatalog">
+                <div class="burger-menu-list-item-img">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcatalog.svg?alt=media&token=12b8ab7b-84ef-4c7a-87f2-6375df1b7ebf&_gl=1*i591lm*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTM1OTUuMjYuMC4w"
+                        alt="" />
+                </div>
+                <div class="burger-menu-list-item-text">
+                    <p>Каталог товарів</p>
+                </div>
+            </li>
         </ul>
         <div class="burger-menu-categories">
             <router-link to="/categories" class="burger-menu-categories-link">
@@ -255,11 +287,14 @@ export default {
             </div>
         </template>
     </div>
-    <template v-if="openCatalog">
-        <div class="background" @click="openCatalog=false">
-            
+    <div v-if="openCatalog">
+        <div class="background" @click="openCatalog = false">
+
         </div>
-        <Catalog @updateCategories="updateCategories" style="z-index: 10000;" :catalogModal="openCatalog"/>
+        <Catalog @updateCategories="updateCategories" style="z-index: 10000;" :catalogModal="openCatalog" />
+    </div>
+    <template v-if="modalAuthentication">
+        <regModal @regModal="updateRegModal"/>
     </template>
 </template>
 <style lang="scss" scoped>
@@ -270,7 +305,12 @@ export default {
     background: #00000050;
     top: 0;
     z-index: 9999;
+    @media (max-width: 968px) {
+        display: none;
+        visibility: none;
+    }
 }
+
 .contact-button {
     max-width: 200px;
     width: 100%;
@@ -424,12 +464,11 @@ export default {
         a {
             text-decoration: none;
             color: #292929;
-
-            li {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
+        }
+        li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         &::before {
@@ -481,7 +520,7 @@ export default {
             &-icon {
                 padding: 7px 12px;
                 border-radius: 8px;
-                transition: 0.7s;
+                transition: 0.3s;
                 user-select: none;
                 margin-right: 7.5px;
 
@@ -623,15 +662,10 @@ export default {
                     }
                 }
             }
-
-            .item-personal {
-                &-icon {
-                    &:nth-child(1) {
-                        display: none;
-                    }
-                }
-            }
         }
     }
-}
-</style>
+
+    .profile {
+        display: none !important;
+    }
+}</style>
