@@ -1,6 +1,6 @@
 <script>
 import Catalog from '../ui/catalog.vue'
-import regModal from './Authentication/regModal.vue'
+import userModal from './Authentication/userModal.vue'
 import axios from 'axios'
 export default {
     props: {
@@ -43,11 +43,6 @@ export default {
             modalAuthentication: false
         }
     },
-    methods: {
-        updateRegModal() {
-            this.modalAuthentication = false
-        }
-    },
     mounted() {
         window.addEventListener('resize', this.handleResize)
         window.addEventListener('scroll', this.handleScroll)
@@ -88,11 +83,15 @@ export default {
                     query: { query: this.request },
                 });
             }
+        },
+        updateRegModal(val) {
+            console.log(val)
+            this.modalAuthentication = false
         }
     },
     components: {
         Catalog,
-        regModal
+        userModal
     },
 }
 </script>
@@ -164,7 +163,7 @@ export default {
                     <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fuser-mobile.svg?alt=media&token=9c6d81b4-abf6-4740-adba-eab2aa1a9d2b&_gl=1*7a0r61*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTI2MTAuMTQuMC4w"
                         alt="" />
                 </div>
-                <div class="burger-menu-client-block-title">Увійти у профіль</div>
+                <div class="burger-menu-client-block-title" @click="modalAuthentication = !modalAuthentication">Увійти у профіль</div>
             </div>
         </div>
         <ul class="burger-menu-list">
@@ -290,7 +289,7 @@ export default {
         <Catalog @updateCategories="updateCategories" style="z-index: 10000;" :catalogModal="openCatalog" />
     </div>
     <template v-if="modalAuthentication">
-        <regModal @regModal="updateRegModal" />
+        <userModal @regModal="updateRegModal(val)" />
     </template>
 </template>
 <style lang="scss" scoped>
