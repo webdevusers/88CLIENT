@@ -31,6 +31,8 @@ export default {
   setup() {
     const slides = [
       'https://firebasestorage.googleapis.com/v0/b/eshop-5be01.appspot.com/o/banner.webp?alt=media&token=971b7fb2-9008-45c8-8e40-788ceb115190',
+      'https://firebasestorage.googleapis.com/v0/b/eshop-5be01.appspot.com/o/banner-1.webp?alt=media&token=c8e9b1cb-c638-466d-a49e-5ce71116cc97',
+      'https://firebasestorage.googleapis.com/v0/b/eshop-5be01.appspot.com/o/banner-2.webp?alt=media&token=15e6aea8-7867-4ac5-8363-62c4db82738d'
     ]
 
     return {

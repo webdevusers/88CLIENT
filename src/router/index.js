@@ -5,6 +5,8 @@ import Product from "../views/product.vue";
 import CartPage from "../views/cart.vue";
 import Checkout from "../views/checkout.vue";
 import ThisSearch from "../views/search.vue";
+import ThisClient from "../views/cabinet.vue"
+import error1 from "../views/errors/404.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,10 +31,10 @@ const router = createRouter({
       path: "/product/:query",
       component: Product,
     },
-    // {
-    //   path: '/:catchAll(.*)',
-    //   component: Home
-    // },
+    {
+      path: '/:catchAll(.*)',
+      component: error1
+    },
     {
       name: "cart",
       path: "/cart",
@@ -49,6 +51,17 @@ const router = createRouter({
       component: ThisSearch,
       props: (route) => ({ query: route.query.query }),
     },
+    // {
+    //   name: "clientarea",
+    //   path: "/cabinet",
+    //   component: ThisClient,
+    //   props: (route) => ({ query: route.query.query }),
+    // }
+    {
+      name: "clientarea",
+      path: "/cabinet",
+      component: ThisClient,
+    }
   ],
 });
 

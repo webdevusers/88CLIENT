@@ -64,6 +64,7 @@ export default {
 };
 </script> -->
 <style lang="scss">
+
 .circle-svg-1 {
   --_circle-radius: 45px;
   --_svg-width: 100px;

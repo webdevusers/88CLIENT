@@ -155,7 +155,7 @@ a {
         margin-bottom: 16px;
 
         img {
-            max-width: 180px;
+            max-width: 160px;
         }
     }
 
