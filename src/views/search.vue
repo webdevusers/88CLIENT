@@ -18,7 +18,7 @@ const route = useRoute();
 
 const fetch = (page) => {
     loading.value = true;
-    axios.get(`http://88.cx.ua:3000/item/search?query=${requestText.value}&page=${page}`).then(
+    axios.get(`https://88.cx.ua/item/search?query=${requestText.value}&page=${page}`).then(
         (response) => {
             products.value = response.data.results;
             pageCount.value = response.data.totalPages;
@@ -31,7 +31,7 @@ onMounted(() => {
     const currentParams = { ...route.query };
     requestText.value = currentParams.query;
 
-    axios.get(`http://88.cx.ua:3000/item/search?query=${requestText.value}&page=1`).then(
+    axios.get(`https://88.cx.ua/item/search?query=${requestText.value}&page=1`).then(
         (response) => {
             products.value = response.data.results;
             pageCount.value = response.data.totalPages;

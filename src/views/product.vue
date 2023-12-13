@@ -216,18 +216,14 @@
             <a-row class="tabs_product__comments">
               <a-col :xs="{ span: 24 }" :md="{ span: 18 }" :xl="{ span: 18 }">
                 <h2>Відгуки покупців про {{ product.name }}</h2>
-                <div class="tabs_product__comments_list">
+                <div class="tabs_product__comments_list" v-for="(item, idx) in product.reviews">
                   <div class="tabs_product__comments_list_item">
                     <a-flex class="tabs_product__comments_list_item_name_and_date">
-                      <div class="name_customer">Владислав</div>
+                      <div class="name_customer">{{item.name}}</div>
                       <div class="date_review">17.10.23</div>
                     </a-flex>
-                    <a-rate value="1" />
-                    <p class="tabs_product__comments_list_item_review">Покупкою не зовсім задоволений, присутнє відчуття,
-                      що
-                      мене обдурили. Я замовляв яблуко, а приїхало незрозуміле залізо у кортоні. Так ще й із карти списало
-                      як за тону яблук, а за фактом жодного. 1 із 5, тому що зручно пиво відкривати, без цього б 0
-                      поставив.
+                    <a-rate :value="item.rate" />
+                    <p class="tabs_product__comments_list_item_review">{{ item.review }}
                     </p>
                     <a-flex class="tabs_product__comments_list_item_answer_and_likes">
                       <div class="answer-link">
@@ -247,7 +243,7 @@
                             d="M0.540202 17.0712C0.543976 17.1061 0.547294 17.1247 0.54898 17.1329L0.549735 17.1345C0.558128 17.1524 0.579422 17.1893 0.610718 17.2326C0.625258 17.2527 0.639454 17.2707 0.651913 17.2852C0.658058 17.2924 0.663219 17.298 0.667247 17.3023C0.670976 17.3062 0.673015 17.3081 0.673317 17.3084C0.751566 17.3792 0.767901 17.3887 0.780125 17.3948C0.789662 17.3995 0.826578 17.4166 0.950202 17.4313C1.22031 17.4634 1.70476 17.4656 2.74795 17.4656H4.51485L4.67151 17.3911C4.76582 17.3451 4.84581 17.274 4.88473 17.2195L4.88471 17.2195L4.88771 17.2154L4.9402 17.1434L4.95504 12.1874C4.96015 9.70638 4.96267 8.43312 4.95191 7.75576C4.94646 7.41293 4.93775 7.24308 4.92736 7.15182C4.92514 7.13234 4.92317 7.1196 4.92182 7.11199C4.86584 7.00898 4.79296 6.93505 4.66128 6.8671C4.64346 6.86408 4.57044 6.85258 4.37341 6.84525C4.08543 6.83454 3.60205 6.83198 2.74871 6.83198C1.9925 6.83446 1.50176 6.83942 1.18655 6.84966C1.02821 6.85481 0.922911 6.86104 0.854288 6.86784C0.835095 6.86974 0.821028 6.8715 0.811287 6.87287C0.712826 6.92543 0.612903 7.02547 0.554162 7.14969L0.553598 7.14942C0.55149 7.15395 0.547424 7.16865 0.541856 7.21618C0.530852 7.31012 0.521295 7.47993 0.514585 7.81657C0.501305 8.48284 0.5 9.72736 0.5 12.1488C0.5 14.5328 0.501301 15.779 0.513958 16.4537C0.520347 16.7943 0.529443 16.9716 0.540202 17.0712Z"
                             stroke="#292929" />
                         </svg>
-                        99+
+                        {{ item.likesReview }}
                       </div>
                     </a-flex>
                   </div>
@@ -370,18 +366,14 @@
             <a-row class="tabs_product__comments">
               <a-col :xs="{ span: 24 }" :md="{ span: 18 }" :xl="{ span: 18 }">
                 <h2>Відгуки покупців про {{ product.name }}</h2>
-                <div class="tabs_product__comments_list">
+                <div class="tabs_product__comments_list" v-for="(item, idx) in product.reviews">
                   <div class="tabs_product__comments_list_item">
                     <a-flex class="tabs_product__comments_list_item_name_and_date">
-                      <div class="name_customer">Владислав</div>
+                      <div class="name_customer">{{item.name}}</div>
                       <div class="date_review">17.10.23</div>
                     </a-flex>
-                    <a-rate value="1" />
-                    <p class="tabs_product__comments_list_item_review">Покупкою не зовсім задоволений, присутнє відчуття,
-                      що
-                      мене обдурили. Я замовляв яблуко, а приїхало незрозуміле залізо у кортоні. Так ще й із карти списало
-                      як за тону яблук, а за фактом жодного. 1 із 5, тому що зручно пиво відкривати, без цього б 0
-                      поставив.
+                    <a-rate :value="item.rate" />
+                    <p class="tabs_product__comments_list_item_review">{{ item.review }}
                     </p>
                     <a-flex class="tabs_product__comments_list_item_answer_and_likes">
                       <div class="answer-link">
@@ -547,7 +539,7 @@ export default {
       behavior: 'smooth' // для плавной прокрутки, если поддерживается
     });
     console.log(id)
-    axios.post(`http://88.cx.ua:3000/item/getProduct`, {
+    axios.post(`https://88.cx.ua/item/getProduct`, {
       id
     })
       .then(
@@ -557,6 +549,9 @@ export default {
           console.log(response.data)
         },
       );
+    setTimeout(() => {axios.post(`https://88.cx.ua/item/addView`, {
+      id: this.product._id
+    })}, 2500)
   },
   computed: {
     getFilteredKeywords() {

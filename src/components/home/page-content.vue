@@ -5,13 +5,14 @@
         <div ref="burgerMenu">
 
             <main class="main">
+                <TheBanner class="displayMobile"/>
                 <div class="main__wrap wrap">
                     <div class="welcome">
                         <aside class="hide">
                             <sideBar @updateCategories="updateCategories" />
                         </aside>
                         <div>
-                            <TheBanner />
+                            <TheBanner class="displayDesktop"/>
                         </div>
                     </div>
                     <div class="padding btn btn-catalog centered" @click="openModal = !openModal">
@@ -78,6 +79,17 @@ import popularCategories from './particles/popular-categories.vue'
 import TheFooter from '../base/TheFooter.vue'
 </script>
 <style lang="scss" scoped>
+.displayDesktop {
+    @media (max-width: 968px) {
+        display: none;
+    }
+}
+.displayMobile {
+    display: none;
+    @media (max-width: 968px) {
+        display: block;
+    }
+}
 .padding {
     padding: 0 20px;
 

@@ -18,9 +18,13 @@ import TheAction from './components/base/TheAction.vue';
 import TheFooter from './components/base/TheFooter.vue';
 
 import { useCartStore } from './store/cart';
+import { useItemsStore } from './store/categories'
 
 const cartStore = useCartStore();
 cartStore.initializeItemsFromLocalStorage();
+
+const itemsStore = useItemsStore();
+itemsStore.fetchCategories();
 
 import { nextTick, ref, watch } from 'vue';
 
@@ -182,6 +186,11 @@ export default {
   }
 }
 
+@media (max-width: 540px) {
+  .ant-rate {
+    font-size: 12px !important;
+  }
+}
 * {
   padding: 0;
   margin: 0;

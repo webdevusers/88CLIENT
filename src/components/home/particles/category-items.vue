@@ -2,7 +2,7 @@
   <div class="items">
     <div class="items__wrap wrap">
       <template v-for="(item, index) in categories" :key="index">
-        <router-link :to="item._id" class="items-item" :class="getItemSize(index)">
+        <router-link :to="{ name: 'category', query: { query: item._id || 123 } }" class="items-item" :class="getItemSize(index)">
           <div class="items-item-title">
             {{ item.name }}
           </div>
@@ -17,13 +17,13 @@
 
 <script>
 import axios from 'axios'
-
+import {useItemsStore} from '@/store/categories'
 export default {
-  data() {
-    return {
-      categories: []
-    }
-  },
+  // data() {
+  //   return {
+  //     categories: []
+  //   }
+  // },
   methods: {
     getItemSize(index) {
       if (index < 2) {
@@ -35,9 +35,12 @@ export default {
       }
     }
   },
-  created() {
-    axios.get('http://88.cx.ua:3000/item/all').then((response) => this.categories = response.data)
-  }
+  computed: {
+    categories() {
+      const store = useItemsStore();
+      return store.categories;
+    }
+  },
 }
 </script>
 

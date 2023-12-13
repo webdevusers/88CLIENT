@@ -1,6 +1,7 @@
 <template>
-    <router-link :to="{ name: 'product', params: { query: id || 123 } }">
-        <div class="card" :style="{ 'opacity': this.stock_quantity ? '' : '.3' }">
+    <div class="card" :style="{ 'opacity': this.stock_quantity ? '' : '.3' }">
+        <router-link :to="{ name: 'product', params: { query: id || 123 } }">
+
             <div class="card-image">
                 <img :src="srcImage" alt="">
             </div>
@@ -28,14 +29,6 @@
                 <div class="card-price">
                     {{ price.toFixed(0) }}₴
                 </div>
-                <div class="card-liked">
-                    <template v-if="liked === true">
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fliked.svg?alt=media&token=84514119-702d-4b07-9be8-009277be6779&_gl=1*14lvitn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzUzOC42MC4wLjA."
-                            alt="" /> </template>
-                    <template v-else>
-                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fliked.svg?alt=media&token=84514119-702d-4b07-9be8-009277be6779&_gl=1*14lvitn*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzUzOC42MC4wLjA."
-                            alt="" /> </template>
-                </div>
                 <div class="addToCart"
                     :style="{ 'opacity': this.stock_quantity ? '' : '.7', 'background': this.stock_quantity ? '' : '#00000090' }">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -51,8 +44,22 @@
                     </svg>
                 </div>
             </div>
+        </router-link>
+        <div class="card-liked" @click="like()">
+            <template v-if="this.liked === true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
+                    <path
+                        d="M5.73939 0.0287609C3.81718 0.281561 2.1575 1.35145 1.06512 3.04882C0.56347 3.8298 0.174339 4.89968 0.0383768 5.87477C-0.041325 6.44809 0.0102467 7.7482 0.127455 8.24478C0.455639 9.58552 1.25266 11.0933 2.36848 12.4702C4.27663 14.8266 7.52565 17.481 11.1779 19.6659C11.6983 19.9774 11.7545 20 11.9983 20C12.2421 20 12.2984 19.9774 12.8188 19.6659C14.1128 18.894 15.885 17.6842 17.0852 16.7497C21.2062 13.5491 23.5457 10.4523 23.9583 7.65792C24.0473 7.05752 23.9864 5.80254 23.8457 5.21568C23.5035 3.82528 22.8987 2.75539 21.9142 1.80288C21.1218 1.03996 20.3389 0.574989 19.3074 0.258989C18.6651 0.06036 18.2479 0.00167465 17.4837 0.00167465C17.1086 0.00167465 16.6445 0.0287609 16.4522 0.0648746C15.6037 0.209332 14.6425 0.597561 13.9159 1.08511C13.4048 1.43271 12.6031 2.20465 12.2796 2.67414C12.139 2.87728 12.0124 3.04431 11.9983 3.04431C11.9843 3.04431 11.8577 2.87728 11.717 2.67414C11.4029 2.21819 10.5496 1.39208 10.0667 1.07156C9.36817 0.615618 8.46801 0.240932 7.68505 0.0919609C7.23966 0.00618935 6.17072 -0.0299263 5.73939 0.0287609Z"
+                        fill="#EFCA00" />
+                </svg></template>
+            <template v-else>
+                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="23" viewBox="0 0 27 23" fill="none">
+                    <path
+                        d="M6.51596 1.12744L6.51818 1.12714C6.7102 1.10092 7.08574 1.09312 7.49444 1.10664C7.90155 1.1201 8.28421 1.15277 8.48809 1.19217L8.48918 1.19238C9.27699 1.34282 10.2021 1.72762 10.9177 2.196C11.1444 2.34737 11.4841 2.63732 11.8182 2.96262C12.1543 3.2898 12.4459 3.61505 12.5898 3.82462L12.5904 3.82557C12.6704 3.94147 12.748 4.04947 12.8094 4.1307C12.8395 4.17038 12.8696 4.20893 12.8961 4.24019C12.9083 4.25452 12.9271 4.27615 12.9489 4.29756C12.9588 4.30718 12.9802 4.32775 13.0094 4.34927C13.0238 4.35988 13.0508 4.37874 13.0875 4.39681C13.1159 4.4108 13.1977 4.44884 13.3103 4.44884C13.4229 4.44884 13.5047 4.4108 13.5331 4.39681C13.5698 4.37874 13.5968 4.35988 13.6112 4.34927C13.6404 4.32775 13.6619 4.30718 13.6717 4.29756C13.6935 4.27615 13.7123 4.25452 13.7245 4.24019C13.751 4.20893 13.7812 4.17038 13.8112 4.1307C13.8726 4.04947 13.9502 3.94147 14.0302 3.82557L14.0308 3.82465C14.1805 3.60665 14.4615 3.29206 14.7867 2.97595C15.1094 2.66229 15.4454 2.37643 15.6925 2.20758C16.4319 1.71003 17.4184 1.31085 18.276 1.16432L18.2845 1.16288L18.2845 1.1628C18.4468 1.13218 18.9166 1.10194 19.3223 1.10194C20.1164 1.10194 20.5231 1.16083 21.1729 1.36252L21.1741 1.36291C22.2271 1.68666 23.0169 2.15655 23.8302 2.94239C24.8378 3.92095 25.4551 5.01278 25.8091 6.45474C25.8752 6.73241 25.9285 7.20181 25.9517 7.69834C25.975 8.19613 25.9655 8.66839 25.9238 8.95069L25.9237 8.95104C25.5008 11.8261 23.0699 15.1291 18.5781 18.6304L18.5776 18.6308C17.2786 19.6459 15.3533 20.965 13.9527 21.8036L13.9521 21.804C13.6542 21.983 13.5337 22.0508 13.4572 22.0819L13.4547 22.083C13.4231 22.0959 13.4129 22.1001 13.3103 22.1001C13.2077 22.1001 13.1975 22.0959 13.1659 22.083L13.1634 22.0819C13.087 22.0508 12.9664 21.983 12.6686 21.804L12.6685 21.804C8.69735 19.4196 5.1881 16.5355 3.14515 14.0033L3.14502 14.0032C1.95688 12.5317 1.12465 10.9392 0.786122 9.55299C0.733862 9.3293 0.68879 8.87739 0.669738 8.37843C0.650757 7.88132 0.660006 7.40176 0.697461 7.13115L6.51596 1.12744ZM6.51596 1.12744C4.56186 1.38537 2.87009 2.47468 1.74866 4.22334M6.51596 1.12744L1.74866 4.22334M1.74866 4.22334C1.24005 5.01803 0.837195 6.12559 0.697489 7.13095L1.74866 4.22334Z"
+                        stroke="#292929" />
+                </svg></template>
         </div>
-    </router-link>
+    </div>
 </template>
   
 <script>
@@ -63,7 +70,6 @@ export default {
         id: String,
         srcImage: String,
         title: String,
-        liked: Boolean,
         discount: Boolean,
         oldprice: Number,
         price: Number,
@@ -74,6 +80,7 @@ export default {
     data() {
         return {
             rating: "",
+            liked: false
         }
     },
     methods: {
@@ -93,7 +100,38 @@ export default {
             } else {
                 return title;
             }
-        }
+        },
+        like() {
+            const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+            const isLiked = favorites.some((item) => item.id === this.id);
+
+            if (isLiked) {
+                // Remove from favorites
+                const updatedFavorites = favorites.filter((item) => item.id !== this.id);
+                localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+                this.liked = false; // Update liked property
+            } else {
+                // Add to favorites
+                const newItem = {
+                    id: this.id,
+                    title: this.title,
+                    srcImage: this.srcImage,
+                    liked: true,
+                };
+
+                const updatedFavorites = [...favorites, newItem];
+                localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+                this.liked = true; // Update liked property
+            }
+        },
+    },
+    created() {
+        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+        const isLiked = favorites.some((item) => item.id === this.id);
+
+        this.liked = isLiked;
     },
 };
 </script>
@@ -129,7 +167,8 @@ a {
     transition: .3s;
     padding-right: 10px;
     height: 100%;
-    max-height: 420px;
+    max-height: 430px;
+    padding-bottom: 20px;
 
     &:hover {
         box-shadow: unset;
@@ -142,6 +181,7 @@ a {
                 stroke: #EFCA00 !important;
             }
         }
+
         .card-title {
             color: #0027ab !important;
         }
@@ -170,6 +210,7 @@ a {
         text-align: left;
         margin-bottom: 8px;
         color: #292929;
+        min-height: 60px;
     }
 
     &-rating {
@@ -219,15 +260,25 @@ a {
         color: #292929;
         font-weight: 600;
     }
+
+    &-liked {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 100000;
+        cursor: pointer;
+    }
 }
 
 @media (max-width: 450px) {
     .card {
         min-height: unset !important;
+
         &-image {
             padding: 0 5px;
             max-width: 130px;
             margin: 0 auto;
+
             img {
                 width: 100%;
             }
@@ -254,5 +305,6 @@ a {
     cursor: pointer;
     user-select: none;
     z-index: 5;
-}</style>
+}
+</style>
   

@@ -149,8 +149,7 @@ export default {
     </div>
     <div class="burger-menu" v-if="burgerMenu === true">
         <div class="burger-menu-logo">
-            <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Flogo.svg?alt=media&token=4f7b2228-5c40-4437-935e-2435c48deacd&_gl=1*1ytnyoy*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY3NTAzMC4xLjEuMTY5ODY3NTU5OC4xMS4wLjA."
-                alt="" />
+            <img src="/icon/logo.svg" alt="" />
         </div>
         <div class="burger-menu-close">
             <img @click="burgerMenu = false"
@@ -246,7 +245,7 @@ export default {
                     </div>
                     <div class="burger-menu-links-text">+380 (12) 345 67 89</div>
                 </a>
-                <a href="#">
+                <a href="https://t.me/VVSupport_bot">
                     <div class="burger-menu-links-img">
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2FTelegramIcon.svg?alt=media&token=d3bab36b-c6c3-4e79-b940-36d021dbc6d8&_gl=1*m4xq0o*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTYyOTMuNjAuMC4w"
                             alt="" />
@@ -293,6 +292,11 @@ export default {
     </template>
 </template>
 <style lang="scss" scoped>
+.action {
+    @media (max-width: 968px) {
+        margin-bottom: 0 !important;
+    }
+}
 .background {
     position: fixed;
     width: 100%;

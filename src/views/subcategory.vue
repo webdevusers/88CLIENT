@@ -288,7 +288,7 @@ export default {
   created() {
     const id = this.$route.params.query;
     console.log(id)
-    axios.get(`http://88.cx.ua:3000/item/getSubcategory?id=${id}&page=1`)
+    axios.get(`https://88.cx.ua/item/getSubcategory?id=${id}&page=1`)
       .then(
         (response) => {
           this.products = response.data.items

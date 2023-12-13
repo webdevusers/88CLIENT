@@ -7,6 +7,7 @@ import Checkout from "../views/checkout.vue";
 import ThisSearch from "../views/search.vue";
 import ThisClient from "../views/cabinet.vue"
 import error1 from "../views/errors/404.vue"
+import category from '../views/category.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,7 +62,13 @@ const router = createRouter({
       name: "clientarea",
       path: "/cabinet",
       component: ThisClient,
-    }
+    },
+    {
+      name: "category",
+      path: "/category",
+      component: category,
+      props: (route) => ({ query: route.query.query }),
+    },
   ],
 });
 

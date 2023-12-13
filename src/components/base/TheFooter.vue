@@ -47,7 +47,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="">
+              <a href="https://t.me/VVSupport_bot">
                 <div>
                   <img
                     src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2FTelegramIcon.svg?alt=media&token=d3bab36b-c6c3-4e79-b940-36d021dbc6d8&_gl=1*deemtk*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODcwNDM1OC41LjEuMTY5ODcwNDU0Mi42MC4wLjA."
@@ -56,7 +56,7 @@
                 <div>
                   Telegram
                 </div>
-              </router-link>
+              </a>
             </li>
             <li>
               <router-link to="">
@@ -175,6 +175,7 @@ export default {
   &-form {
     max-width: 456px;
     width: 100%;
+
     &-text {
       p {
         color: var(--gray-white, #FFF);
@@ -205,14 +206,18 @@ export default {
       display: flex;
       flex-direction: row;
       margin-bottom: 16px;
+
       @media (max-width: 440px) {
         flex-direction: column;
+
         input {
           width: 100% !important;
           margin-bottom: 16px;
         }
+
         margin-bottom: 0;
       }
+
       input {
         border-radius: 10px;
         background: var(--gray-white, #FFF);
@@ -305,18 +310,22 @@ export default {
       }
     }
   }
+
   &-flex {
     display: flex;
     flex-direction: row;
     grid-gap: 90px;
+
     @media (max-width: 1180px) {
-     flex-wrap: wrap;
-     grid-gap: unset;
+      flex-wrap: wrap;
+      grid-gap: unset;
     }
+
     @media (max-width: 968px) {
       max-width: 456px;
     }
   }
+
   background: #292929;
 
   &__wrap {
@@ -331,6 +340,7 @@ export default {
       grid-gap: 40px;
       padding: 64px 20px;
     }
+
     @media (max-width: 968px) {
       flex-direction: column-reverse;
       justify-content: center;
@@ -341,11 +351,13 @@ export default {
 
   &-company {
     max-width: 203px;
+
     @media (max-width: 1180px) {
       max-width: unset;
       width: 100%;
       margin-bottom: 40px;
     }
+
     &-img {
       margin-bottom: 16px;
     }
@@ -370,6 +382,7 @@ export default {
       width: 50%;
       padding-right: 20px;
     }
+
     ul {
       list-style: none;
 
@@ -387,10 +400,12 @@ export default {
       }
     }
   }
+
   &-contacts {
     @media (max-width: 1180px) {
       width: 50%;
     }
+
     ul {
       list-style: none;
 
@@ -415,5 +430,4 @@ export default {
       }
     }
   }
-}
-</style>
+}</style>

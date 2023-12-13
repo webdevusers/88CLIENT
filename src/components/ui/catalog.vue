@@ -111,9 +111,7 @@
 </template>
   
 <script>
-import { ref, onBeforeMount } from "vue";
-// import { useApiStore } from "../../store/store";
-import axios from "axios";
+import {useItemsStore} from '@/store/categories'
 
 export default {
     props: {
@@ -153,13 +151,12 @@ export default {
                 });
         }
     },
-    created() {
-        axios.get('http://88.cx.ua:3000/item/all').then(
-            (response) => {
-                this.categories = response.data
-            }
-        )
-    },
+    computed: {
+    categories() {
+      const store = useItemsStore();
+      return store.categories;
+    }
+  },
     watch: {
         catalogModal(val) {
             this.$emit('catalogModal', val)
