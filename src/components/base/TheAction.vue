@@ -1,6 +1,6 @@
 <script>
 import Catalog from '../ui/catalog.vue'
-import regModal from './Authentication/regModal.vue'
+import userModal from './Authentication/userModal.vue'
 import axios from 'axios'
 export default {
     props: {
@@ -43,11 +43,6 @@ export default {
             modalAuthentication: false
         }
     },
-    methods: {
-        updateRegModal() {
-            this.modalAuthentication = false
-        }
-    },
     mounted() {
         window.addEventListener('resize', this.handleResize)
         window.addEventListener('scroll', this.handleScroll)
@@ -82,21 +77,21 @@ export default {
             console.log(val)
         },
         search() {
-            if (this.request.length > 4) {
-                setTimeout(() => {
-                    axios.get(`http://88.cx.ua:3000/item/search?query=${this.request}`).then(
-                        (response) => {
-                            console.log(response.data)
-                        }
-                    );
-                }, 2000);
+            if (this.request.length > 0) {
+                this.$router.push({
+                    path: `/search/`,
+                    query: { query: this.request },
+                });
             }
+        },
+        updateRegModal(val) {
+            console.log(val)
+            this.modalAuthentication = false
         }
-
     },
     components: {
         Catalog,
-        regModal
+        userModal
     },
 }
 </script>
@@ -126,9 +121,9 @@ export default {
                 </template>
                 <div class="item-search">
                     <div class="item-search-input">
-                        <input type="text" placeholder="Я хочу знайти..." v-model="request" @input="search" />
+                        <input type="text" placeholder="Я хочу знайти..." v-model="request" @keyup.enter="search" />
                     </div>
-                    <div class="item-search-icon">
+                    <div class="item-search-icon" style="cursor: pointer" @click="search">
                         <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fsearch.svg?alt=media&token=184c8d9c-e018-4e03-86c4-0954eb961a20&_gl=1*1bmk89y*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODY5MzQ3OC4zLjEuMTY5ODY5MzQ5Ni40Mi4wLjA."
                             alt="" />
                     </div>
@@ -168,7 +163,7 @@ export default {
                     <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fuser-mobile.svg?alt=media&token=9c6d81b4-abf6-4740-adba-eab2aa1a9d2b&_gl=1*7a0r61*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc5MjU2NC4xMS4xLjE2OTg3OTI2MTAuMTQuMC4w"
                         alt="" />
                 </div>
-                <div class="burger-menu-client-block-title">Увійти у профіль</div>
+                <div class="burger-menu-client-block-title" @click="modalAuthentication = !modalAuthentication">Увійти у профіль</div>
             </div>
         </div>
         <ul class="burger-menu-list">
@@ -294,7 +289,7 @@ export default {
         <Catalog @updateCategories="updateCategories" style="z-index: 10000;" :catalogModal="openCatalog" />
     </div>
     <template v-if="modalAuthentication">
-        <regModal @regModal="updateRegModal"/>
+        <userModal @regModal="updateRegModal(val)" />
     </template>
 </template>
 <style lang="scss" scoped>
@@ -305,6 +300,7 @@ export default {
     background: #00000050;
     top: 0;
     z-index: 9999;
+
     @media (max-width: 968px) {
         display: none;
         visibility: none;
@@ -465,6 +461,7 @@ export default {
             text-decoration: none;
             color: #292929;
         }
+
         li {
             display: flex;
             flex-direction: row;
@@ -668,4 +665,5 @@ export default {
     .profile {
         display: none !important;
     }
-}</style>
+}
+</style>

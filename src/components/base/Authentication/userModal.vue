@@ -3,59 +3,71 @@
 
     </div>
     <div class="authentication">
-        <div class="authentication__wrap wrap">
-            <div class="authentication-title">
+        <div class="authentication-title">
+            <template v-if="this.default === 'reg'">
                 Реєстрація
-            </div>
-            <div class="authentication-block">
-                <div class="authentication-left">
-                    <div class="authentication-left__inputs">
-                        <div class="authentication-left__inputs-item">
+            </template>
+            <template v-else>
+                Авторизація
+            </template>
+        </div>
+        <div class="authentication-block">
+            <div class="authentication-left">
+                <div class="authentication-left__inputs">
+                    <div class="authentication-left__inputs-item" v-if="this.default === 'reg'">
 
-                            <label for="">Повне Ім’я</label>
-                            <a-input v-model:value="name" placeholder="Петро Васильченко" />
-                        </div>
-                        <div class="authentication-left__inputs-item">
+                        <label for="">Повне Ім’я</label>
+                        <a-input v-model:value="name" placeholder="Петро Васильченко" />
+                    </div>
+                    <div class="authentication-left__inputs-item" v-if="this.default === 'reg'">
 
-                            <label for="">Номер телефону</label>
-                            <a-input v-model:value="phone" placeholder="+380 (12) 345 67 89" />
-
-                        </div>
-                        <div class="authentication-left__inputs-item" :style="'padding'">
-
-                            <label for="">Ел. пошта</label>
-                            <a-input v-model:value="email" placeholder="example@gmail.com" />
-                        </div>
-                        <div class="authentication-left__inputs-item">
-                            <label for="">Пароль</label>
-                            <a-input-password v-model:value="password" placeholder="a-Z[1-9]*_" />
-                        </div>
+                        <label for="">Номер телефону</label>
+                        <a-input v-model:value="phone" placeholder="+380 (12) 345 67 89" />
 
                     </div>
+                    <div class="authentication-left__inputs-item" :style="'padding'">
+
+                        <label for="">Ел. пошта</label>
+                        <a-input v-model:value="email" placeholder="example@gmail.com" />
+                    </div>
+                    <div class="authentication-left__inputs-item">
+                        <label for="">Пароль</label>
+                        <a-input-password v-model:value="password" placeholder="a-Z[1-9]*_" />
+                    </div>
+
+                </div>
+                <template v-if="this.default === 'reg'">
                     <div class="authentication-left__button" @click="create(name, phone, email, password)">
                         Зареєструватися
                     </div>
-                    <div class="authentication-left__switch">
+                    <div class="authentication-left__switch" @click="this.default = 'auth'">
                         Увійти
                     </div>
+                </template>
+                <template v-else>
+                    <div class="authentication-left__button" @click="auth(email, password)">
+                        Увійти
+                    </div>
+                    <div class="authentication-left__switch" @click="this.default = 'reg'">
+                        Зареєструватися
+                    </div>
+                </template>
+            </div>
+            <div class="authentication-right">
+                <div class="authentication-right__title">
+                    Додаткова інформація
                 </div>
-                <div class="authentication-right">
-                    <div class="authentication-right__title">
-                        Додаткова інформація
-                    </div>
-                    <div class="authentication-right__desc">
-                        При використанні свого облікового запису на порталі 88, ви зможете замовляти товар в 1 клік
-                    </div>
-                    <div class="authentication-right__img">
-                        <img src="/images/delivery.png" alt="">
-                    </div>
+                <div class="authentication-right__desc">
+                    При використанні свого облікового запису на порталі 88, ви зможете замовляти товар в 1 клік
+                </div>
+                <div class="authentication-right__img">
+                    <img src="/images/delivery.png" alt="">
                 </div>
             </div>
-            <div class="authentication-cross" @click="this.$emit('regModal', false)">
-                <img
-                src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fclose.svg?alt=media&token=ed2a79ce-eeca-4259-998f-f3a1f0c77a81&_gl=1*1hi8n3w*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc3MTYzNi44LjEuMTY5ODc3MTY0Ny40OS4wLjA."
+        </div>
+        <div class="authentication-cross" @click="this.$emit('regModal', false)">
+            <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fclose.svg?alt=media&token=ed2a79ce-eeca-4259-998f-f3a1f0c77a81&_gl=1*1hi8n3w*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODc3MTYzNi44LjEuMTY5ODc3MTY0Ny40OS4wLjA."
                 alt="" />
-            </div>
         </div>
     </div>
     <div class="notify-bad" v-if="notifyBad">
@@ -85,6 +97,7 @@ export default defineComponent({
             validPass: null,
             validPhone: null,
             validName: null,
+            default: 'reg'
         }
     },
     setup() {
@@ -125,6 +138,18 @@ export default defineComponent({
             });
         };
 
+        const auth = () => {
+            if (!validateEmail() || !validatePassword) {
+                notifyBad.value = true;
+                return;
+            }
+            axios.post('http://88.cx.ua:3000/user/authentication', {
+                email: email.value,
+                password: password.value,
+            }).then(() => {
+                $router.router.push('/clienarea');
+            });
+        }
 
         return {
             password,
@@ -139,7 +164,7 @@ export default defineComponent({
         notifyBad() {
             setTimeout(() => {
                 this.notifyBad = false
-            }, 2500)
+            }, 5000)
         }
     }
 });
@@ -148,8 +173,8 @@ export default defineComponent({
 <style lang="scss">
 .notify-bad {
     position: fixed;
-    right: 20px;
-    top: 30px;
+    top: 20px;
+    left: 50%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -158,6 +183,7 @@ export default defineComponent({
     padding: 4px 24px;
     border-radius: 10px;
     animation: load .3s;
+    transform: translate(-50%);
 
     svg {
         max-width: 24px;
@@ -180,6 +206,29 @@ export default defineComponent({
     }
 }
 
+@media (max-width: 968px) {
+    .background {
+        display: none;
+    }
+
+    .authentication {
+        width: 100%;
+        top: 57% !important;
+        overflow-y: auto;
+
+        &-block {
+            grid-gap: 20px !important;
+            grid-template-columns: repeat(1, 1fr) !important;
+            height: 100vh;
+            width: 100% !important;
+        }
+
+        &-right {
+            display: none !important;
+        }
+    }
+}
+
 .background {
     position: fixed;
     width: 100%;
@@ -195,6 +244,7 @@ export default defineComponent({
 }
 
 .authentication {
+    min-height: 670px;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -204,12 +254,14 @@ export default defineComponent({
     box-shadow: 5px 5px 25px 0px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 24px 16px;
+
     &-cross {
         position: absolute;
         right: 24px;
         top: 24px;
         cursor: pointer;
     }
+
     &-block {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -232,11 +284,11 @@ export default defineComponent({
             position: absolute;
             width: 100%;
             height: 1px;
-            background: #292929;
+            background: #29292950;
             content: "";
             display: block;
             bottom: -10px;
-            left: 48%;
+            left: 50%;
             transform: translate(-50%);
         }
     }
@@ -339,5 +391,4 @@ export default defineComponent({
             }
         }
     }
-}
-</style>
+}</style>

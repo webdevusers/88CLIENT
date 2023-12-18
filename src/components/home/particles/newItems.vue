@@ -34,11 +34,11 @@
                                         </div>
                                     </div>
                                     <div class="card-discount">
-                                        <p><strike>{{ i.oldPrice }} ₴</strike></p><span>{{ calculateDiscount(i.oldPrice,
+                                        <p><strike>{{ i.oldPrice.toFixed(0) }} ₴</strike></p><span>{{ calculateDiscount(i.oldPrice,
                                             i.price) }}</span>
                                     </div>
                                     <div class="card-price">
-                                        {{ i.price }}₴
+                                        {{ i.price.toFixed(0) }}₴
                                     </div>
                                     <div class="card-liked">
                                         <template v-if="i.liked === true">

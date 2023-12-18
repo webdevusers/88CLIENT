@@ -290,26 +290,6 @@ export default {
             }
           }
       );
-
-      /*
-      const filteredProducts = this.products.items.filter(product =>
-        typeof product === 'object' &&
-        'price' in product &&
-        typeof product.price === 'number' &&
-        !isNaN(product.price) &&
-        product.price >= minPrice &&
-        product.price <= maxPrice
-      );
-
-      if (filteredProducts.length > 0) {
-        const prices = filteredProducts.map(product => product.price.toFixed(0));
-        //this.minPrice = Math.min(...prices);
-        //this.maxPrice = Math.max(...prices);
-        console.log("Filtered products:", filteredProducts);
-      } else {
-        console.error("No valid products in the specified price range");
-      }
-       */
     },
     fetch(page) {
       const id = this.$route.params.query;
@@ -345,14 +325,14 @@ export default {
     axios.get(`http://88.cx.ua:3000/api/item/getSubcategory?id=${id}&page=1`)
       .then(
         (response) => {
-          this.products = response.data;
           this.pageCount = response.data.pageCount;
-          this.subcategoryName = response.data.name;
           this.minPriceSlider = Math.trunc(response.data.minPrice);
           this.maxPriceSlider = Math.trunc(response.data.maxPrice);
           this.minPrice = Math.trunc(response.data.minPrice);
           this.maxPrice = Math.trunc(response.data.maxPrice);
           this.defaultValueSlider = [Math.trunc(response.data.minPrice), Math.trunc(response.data.maxPrice)];
+          this.products = response.data.items
+          this.subcategoryName = response.data.categoryName
           this.updateProducts();
         },
       );
