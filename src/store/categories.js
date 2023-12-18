@@ -8,7 +8,7 @@ export const useItemsStore = defineStore({
   actions: {
     async fetchCategories() {
       try {
-        const response = await fetch('https://88.cx.ua/item/all');
+        const response = await fetch('https://88.cx.ua/api/item/all');
         const data = await response.json();
         this.categories = data;
       } catch (error) {

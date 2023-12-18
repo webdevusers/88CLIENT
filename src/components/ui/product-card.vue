@@ -73,7 +73,7 @@ export default {
         discount: Boolean,
         oldprice: Number,
         price: Number,
-        ratingVoid: Number,
+        reviews: Array,
         countRating: Number,
         stock_quantity: Number,
     },

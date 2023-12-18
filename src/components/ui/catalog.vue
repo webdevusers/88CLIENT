@@ -66,9 +66,9 @@
                                         <path d="M7 10L12 15L17 10" stroke="#333333" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round"></path>
                                     </g>
-                                </svg>Категорія: {{ categoryModalContent[0].name }}
+                                </svg>Категорія: {{ categories[0].name }}
                             </div>
-                            <li v-for="(item, idx) in categoryModalContent[0].childCategories" :key="idx">
+                            <li v-for="(item, idx) in categories[0].childCategories" :key="idx">
                                 <router-link :to="{ name: 'subcategory', params: { query: item._id } }">
                                     <p>{{ item.name }}</p>
                                     <svg style="max-width: 32px; width: 100%" viewBox="0 0 24 24" fill="none"
