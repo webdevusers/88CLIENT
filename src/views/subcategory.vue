@@ -109,34 +109,20 @@
                   <span>До</span>
                   <input type="number" v-model="maxPrice" @input="updateProducts" />
                 </div>
-                <a-slider
-                  v-model:value="value2"
-                  range
-                  class="subcategory__filter_inner_cost_slider"
-                />
-                <hr />
-                <p class="text-center subcategory__filter_inner_name">Бренд</p>
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox>
-                <hr />
-                <p class="text-center subcategory__filter_inner_name">
-                  Внутрішня пам'ять
-                </p>
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox>
-                <hr />
-                <p class="text-center subcategory__filter_inner_name">Колір</p>
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox><br />
-                <a-checkbox>Apple (123)</a-checkbox>
+                <a-slider range class="subcategory__filter_inner_cost_slider" :min="minPriceSlider" :max="maxPriceSlider" v-model:defaultValue="defaultValueSlider" @afterChange="afterChange" />
+                <a-checkbox-group v-model:value="char">
+                  <template v-for="(i, idx) in products.charFilters" :key="idx">
+                    <template v-if="i.values.length !== 1">
+                      <hr />
+                      <p class="text-center subcategory__filter_inner_name">{{ i.name }}</p>
+                      <a-row>
+                        <a-col v-for="(j, idy) in i.values" :key="idy" :span="24">
+                          <a-checkbox :value="'{ name: ' + i.name + ', value: ' + j + ' }'">{{ j }}</a-checkbox>
+                        </a-col>
+                      </a-row>
+                    </template>
+                  </template>
+                </a-checkbox-group>
               </div>
               <template #footer> </template>
             </a-modal>
@@ -220,50 +206,30 @@
               <span>До</span>
               <input type="number" v-model="maxPrice" @keyup.enter="updateProducts" />
             </div>
-            <a-slider
-              range
-              class="subcategory__filter_inner_cost_slider"
-              :min="minPrice"
-              :max="maxPrice"
-            />
-            <hr />
-            <p class="text-center subcategory__filter_inner_name">Бренд</p>
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox>
-            <hr />
-            <p class="text-center subcategory__filter_inner_name">Внутрішня пам'ять</p>
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox>
-            <hr />
-            <p class="text-center subcategory__filter_inner_name">Колір</p>
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox><br />
-            <a-checkbox>Apple (123)</a-checkbox>
+            <a-slider range class="subcategory__filter_inner_cost_slider" :min="minPriceSlider" :max="maxPriceSlider" v-model:value="defaultValueSlider" @afterChange="afterChange" />
+            <a-checkbox-group v-model:value="char">
+              <template v-for="(i, idx) in products.charFilters" :key="idx">
+                <template v-if="i.values.length !== 1">
+                  <hr />
+                  <p class="text-center subcategory__filter_inner_name">{{ i.name }}</p>
+                  <a-row>
+                    <a-col v-for="(j, idy) in i.values" :key="idy" :span="24">
+                      <a-checkbox :value="'{ name: ' + i.name + ', value: ' + j + ' }'">{{ j }}</a-checkbox>
+                    </a-col>
+                  </a-row>
+                </template>
+              </template>
+            </a-checkbox-group>
           </div>
         </div>
         <div class="subcategory__items">
-          <template v-for="(i, idx) in products" :key="idx">
-            <pc
-              :title="i.name"
-              :id="i._id"
-              :srcImage="i.images[0] ? i.images[0].url || 'Логотип 88' : 'Логотип 88'"
-              :liked="i.liked"
-              :discount="true"
-              :oldprice="i.oldPrice"
-              :price="i.price"
-              :stock_quantity="i.stock_quantity"
-              :ratingVoid="i.ratingVoid"
-              :countRating="i.reviews.length"
-            />
+          <template v-for="(i, idx) in products.items" :key="idx">
+            <pc :title="i.name" :id="i._id" :srcImage="i.images[0] ? i.images[0].url || 'Логотип 88' : 'Логотип 88'"
+              :liked="i.liked" :discount="true" :oldprice="i.oldPrice" :price="i.price" :stock_quantity="i.stock_quantity"
+              :ratingVoid="i.ratingVoid" :countRating="i.reviews.length" />
           </template>
+          <a-pagination v-model:current="current" :total="pageCount" :defaultPageSize="1" :pageSizeOptions="[1]"
+                        show-less-items @change="fetch(current)" />
         </div>
       </div>
     </div>
@@ -271,13 +237,13 @@
   <TheFooter />
 </template>
 <script>
-import { ref, watch } from "vue";
-import TheHeader from "../components/base/TheHeader.vue";
-import TheAction from "../components/base/TheAction.vue";
-import TheFooter from "../components/base/TheFooter.vue";
-import pc from "../components/ui/product-card.vue";
-import axios from "axios";
-
+import { ref, watch } from 'vue';
+import TheHeader from '../components/base/TheHeader.vue';
+import TheAction from '../components/base/TheAction.vue';
+import TheFooter from '../components/base/TheFooter.vue';
+import pc from '../components/ui/product-card.vue';
+import axios from 'axios';
+const current = ref(1);
 export default {
   props: ["$route"],
   components: {
@@ -297,7 +263,13 @@ export default {
       subcategoryName: "",
       minPrice: null,
       maxPrice: null,
-    };
+      minPriceSlider: null,
+      maxPriceSlider: null,
+      defaultValueSlider: null,
+      pageCount: null,
+      page: 1,
+      char: []
+    }
   },
   methods: {
     handleResize() {
@@ -330,6 +302,8 @@ export default {
       return Math.min(...this.products.map((product) => product.price));
     },
     updateProducts() {
+      console.log(this.char);
+
       const isMinPriceValid = this.minPrice !== "";
       const isMaxPriceValid = this.maxPrice !== "";
 
@@ -340,46 +314,99 @@ export default {
 
       const minPrice = parseFloat(this.minPrice) || 0;
       const maxPrice = parseFloat(this.maxPrice) || Number.POSITIVE_INFINITY;
+      this.defaultValueSlider = [minPrice, maxPrice];
 
-      const filteredProducts = this.products.filter(
-        (product) =>
-          typeof product === "object" &&
-          "price" in product &&
-          typeof product.price === "number" &&
-          !isNaN(product.price) &&
-          product.price >= minPrice &&
-          product.price <= maxPrice
-      );
-
-      if (filteredProducts.length > 0) {
-        const prices = filteredProducts.map((product) => product.price);
-        this.minPrice = Math.min(...prices);
-        this.maxPrice = Math.max(...prices);
-        console.log("Filtered products:", filteredProducts);
-      } else {
-        console.error("No valid products in the specified price range");
+      const id = this.$route.params.query;
+      const data = this.char.length > 0 ? {
+        id: id,
+        page: 1,
+        char: this.char,
+        priceForm: this.minPrice,
+        priceTo: this.maxPrice
+      } : {
+        id: id,
+        page: 1,
+        priceForm: this.minPrice,
+        priceTo: this.maxPrice
       }
+      axios.get(`http://88.cx.ua:3000/api/item/getSubcategory?id=${id}&page=1`, data).then(
+          (response) => {
+            this.pageCount = response.data.pageCount;
+            this.products = response.data;
+
+            const filteredProducts = this.products.items.filter(product =>
+                typeof product === 'object' &&
+                'price' in product &&
+                typeof product.price === 'number' &&
+                !isNaN(product.price) &&
+                product.price >= minPrice &&
+                product.price <= maxPrice
+            );
+
+            if (filteredProducts.length > 0) {
+              const prices = filteredProducts.map(product => product.price.toFixed(0));
+              console.log("Filtered products:", filteredProducts);
+            }
+          }
+      );
     },
+    fetch(page) {
+      const id = this.$route.params.query;
+      console.log(id)
+      console.log(page)
+      axios.get(`http://88.cx.ua:3000/api/item/getSubcategory?id=${id}&page=${page}`).then(
+          (response) => {
+            this.pageCount = response.data.pageCount;
+            this.products = response.data;
+            this.subcategoryName = response.data.name;
+            this.updateProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+    },
+    afterChange(value) {
+      console.log('afterChange: ', value);
+      this.minPrice = value[0];
+      this.maxPrice = value[1];
+      this.updateProducts();
+    }
   },
   watch: {
-    minPrice: "updateProducts",
-    maxPrice: "updateProducts",
+    minPrice: 'updateProducts',
+    maxPrice: 'updateProducts',
+    char: 'updateProducts',
+    '$route.params.query': () => {
+      location.reload();
+    }
   },
   created() {
     const id = this.$route.params.query;
-    console.log(id);
-    axios
-      .get(`https://88.cx.ua/api/item/getSubcategory?id=${id}&page=1`)
-      .then((response) => {
-        this.products = response.data.items;
-        this.subcategoryName = response.data.categoryName;
-        this.updateProducts();
-      });
+    console.log(id)
+    axios.get(`http://88.cx.ua:3000/api/item/getSubcategory?id=${id}&page=1`)
+      .then(
+        (response) => {
+          this.pageCount = response.data.pageCount;
+          this.minPriceSlider = Math.trunc(response.data.minPrice);
+          this.maxPriceSlider = Math.trunc(response.data.maxPrice);
+          this.minPrice = Math.trunc(response.data.minPrice);
+          this.maxPrice = Math.trunc(response.data.maxPrice);
+          this.defaultValueSlider = [Math.trunc(response.data.minPrice), Math.trunc(response.data.maxPrice)];
+          this.products = response.data.items
+          this.subcategoryName = response.data.categoryName
+          this.updateProducts();
+        },
+      );
   },
-};
+}
 </script>
 
 <style lang="scss">
+.header:nth-child(n+2) {
+  display: none !important;
+  & + .action {
+    display: none;
+  }
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -390,12 +417,38 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.ant-pagination-options {
+  display: none !important;
+}
+
 .ant-modal-wrap {
   z-index: 10001 !important;
 }
 
 .ant-slider-track {
   background-color: #efca00 !important;
+}
+
+.ant-slider-mark {
+  display: none;
+}
+
+.ant-slider-dot {
+  display: none;
+}
+
+.ant-checkbox-group {
+  display: block !important;
+
+  .ant-row {
+    margin-top: 5px !important;
+    padding-left: 0 !important;
+    padding-bottom: 0 !important;
+
+    .ant-checkbox-wrapper {
+      text-wrap: balance;
+    }
+  }
 }
 
 .text-center {
@@ -418,6 +471,7 @@ input[type="number"] {
 .subcategory {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 
   &-title {
     font-size: 48px;
@@ -470,7 +524,6 @@ input[type="number"] {
 
       .ant-modal-content {
         border-radius: 0 !important;
-        height: 100vh !important;
       }
     }
 
