@@ -373,7 +373,7 @@ export default {
     display: grid;
     grid-template-columns: 50% 15% 15% 20%;
     color: #000;
-    font-family: DIN Pro;
+    font-family: '88';
     font-size: 20px;
     font-style: normal;
     font-weight: 400;

@@ -128,7 +128,7 @@ export default defineComponent({
                 return;
             }
 
-            axios.post('http://88.cx.ua:3000/user/create', {
+            axios.post('https://88.cx.ua/user/create', {
                 name: name.value,
                 phone: phone.value,
                 email: email.value,
@@ -143,7 +143,7 @@ export default defineComponent({
                 notifyBad.value = true;
                 return;
             }
-            axios.post('http://88.cx.ua:3000/user/authentication', {
+            axios.post('https://88.cx.ua/user/authentication', {
                 email: email.value,
                 password: password.value,
             }).then(() => {
@@ -184,7 +184,9 @@ export default defineComponent({
     border-radius: 10px;
     animation: load .3s;
     transform: translate(-50%);
-
+    @media (max-width: 968px) {
+        width: 100%;
+    }
     svg {
         max-width: 24px;
         margin-right: 16px;
@@ -213,7 +215,7 @@ export default defineComponent({
 
     .authentication {
         width: 100%;
-        top: 57% !important;
+        top: 59% !important;
         overflow-y: auto;
 
         &-block {
@@ -225,6 +227,14 @@ export default defineComponent({
 
         &-right {
             display: none !important;
+        }
+        @media (max-width: 968px) {
+            &-title {
+                padding-top: 20px;
+            }
+            &-cross {
+                top: 45px !important;
+            }
         }
     }
 }

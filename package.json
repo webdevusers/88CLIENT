@@ -20,6 +20,7 @@
     "vue": "^3.3.4",
     "vue-google-oauth2": "^1.5.10",
     "vue-google-signin-button": "^1.0.4",
+    "vue-meta": "^2.4.0",
     "vue-router": "^4.2.5",
     "vue3-google-oauth2": "^1.0.7"
   },

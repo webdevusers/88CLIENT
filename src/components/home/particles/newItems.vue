@@ -4,65 +4,15 @@
             Новинки
         </div>
         <div class="items">
-            <swiper :navigation="true" :modules="modules" class="mySwiper" :slidesPerView="4" :spaceBetween="30"
+            <swiper :navigation="true" :modules="modules" class="mySwiper news" :slidesPerView="4" :spaceBetween="15"
                 :breakpoints="breakpoints">
                 <template v-for="(i, idx) in products" :key="idx">
                     <swiper-slide>
-                        <router-link :to="{ name: 'product', params: { query: i._id || 123 } }">
-
-                            <div class="card" :style="{ 'filter': i.stock_quantity < 0 ? 'blur(10px)' : '' }">
-                                <div class="card-image">
-                                    <img :src="i.images[0].url" alt="">
-                                </div>
-                                <div class="card-text">
-                                    <div class="card-title">
-                                        {{ truncateTitle(i.name, 68) }}
-                                    </div>
-                                    <div class="card-rating">
-                                        <div class="card-rating-stars">
-                                            <a-rate :value="i.reviews.length >= 0 ? 0 : calculateReviews()" /> &nbsp;
-
-                                        </div>
-                                        <div class="card-rating-count">
-                                            <div class="card-rating-count-image">
-                                                <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Freviews.svg?alt=media&token=65c408f6-940a-4b30-82d1-411cab6d12bf&_gl=1*15nk9h9*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODI1MDQuNDYuMC4w"
-                                                    alt="">
-                                            </div>
-                                            <div class="card-rating-count-text">
-                                                {{ i.reviews.length }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-discount">
-                                        <p><strike>{{ i.oldPrice.toFixed(0) }} ₴</strike></p><span>{{ calculateDiscount(i.oldPrice,
-                                            i.price) }}</span>
-                                    </div>
-                                    <div class="card-price">
-                                        {{ i.price.toFixed(0) }}₴
-                                    </div>
-                                    <div class="card-liked">
-                                        <template v-if="i.liked === true">
-                                            <img src="" alt="">
-                                        </template>
-                                        <template v-else>
-                                            <img src="" alt="">
-                                        </template>
-                                    </div>
-                                    <div class="addToCart" @click="addToCart(idx)">
-                                        <img src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Fcart.svg?alt=media&token=0f861b5b-c2ff-4032-89d7-ddb78c69c635&_gl=1*2p0qzv*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODg4MTU2NC4xMy4xLjE2OTg4ODMwNzcuNDQuMC4w"
-                                            alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </router-link>
+                        <pc :title="i.name" :srcImage="i.images[0].url" :liked="i.liked" :discount="i.discount"
+                        :oldprice="i.oldPrice" :price="i.price" :stock_quantity="i.stock_quantity"
+                        :ratingVoid="i.reviews.length" :countRating="i.reviews.length" :id="i._id" />
 
                     </swiper-slide>
-                </template>
-                <template #navigation-prev>
-                    <div class="swiper-button-prev"></div>
-                </template>
-                <template #navigation-next>
-                    <div class="swiper-button-next"></div>
                 </template>
             </swiper>
         </div>
@@ -72,6 +22,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
+import pc from '@/components/ui/product-card.vue'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import axios from 'axios';
@@ -123,6 +74,7 @@ export default {
     components: {
         Swiper,
         SwiperSlide,
+        pc
     },
     setup() {
         return {
@@ -130,7 +82,7 @@ export default {
         };
     },
     created() {
-        axios.get('http://88.cx.ua:3000/item/newProducts').then((response) =>
+        axios.get('https://88.cx.ua/item/newProducts').then((response) =>
             this.products = response.data
         )
     }
@@ -140,6 +92,9 @@ export default {
   
 
 <style lang="scss" scoped>
+.news {
+
+}
 .card {
     border: 1px solid transparent;
     transition: .3s;
@@ -156,6 +111,10 @@ export default {
             }
         }
 
+    }
+}
+.swiper-slide {
+    .card {
     }
 }
 .new {

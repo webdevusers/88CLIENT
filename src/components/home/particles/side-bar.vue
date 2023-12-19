@@ -2,18 +2,18 @@
   <div class="absolute">
     <aside class="list">
       <div>
-        <router-link to="/subcategory">
-          <ul class="items" @mouseenter="active = true" @mouseleave="active = false" :class="{ active: active === true }">
-            <li v-for="(i, idx) in categories" :key="idx" class="items-item">
+        <ul class="items" @mouseenter="active = true" @mouseleave="active = false" :class="{ active: active === true }">
+          <li v-for="(i, idx) in categories" :key="idx" class="items-item">
+            <router-link :to="{ name: 'category', query: { query: i._id || 123 } }">
               <div class="items-item-img">
                 <img :src="i.icon" alt="" />
               </div>
               <div class="items-item-text">
                 {{ i.name }}
               </div>
-            </li>
-          </ul>
-        </router-link>
+            </router-link>
+          </li>
+        </ul>
       </div>
       <img class="arrow" v-if="active === false"
         src="https://firebasestorage.googleapis.com/v0/b/dropshipping-2afce.appspot.com/o/icons%2Farrow.svg?alt=media&token=cedfac15-83e9-4e8a-9512-f6585e3b10b1&_gl=1*4en2jc*_ga*NDA0ODk5NjE2LjE2OTg2NzUwMzA.*_ga_CW55HF8NVT*MTY5ODcwNzE0OS42LjAuMTY5ODcwNzE0OS42MC4wLjA."
@@ -23,9 +23,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from "vue";
-// import { useApiStore } from "@/store/store";
-import axios from "axios";
+import {useItemsStore} from '@/store/categories'
 
 export default {
   data() {
@@ -34,10 +32,11 @@ export default {
       categories: [],
     };
   },
-  created() {
-    axios.get('http://88.cx.ua:3000/item/all').then((response) => {
-      this.categories = response.data
-    })
+  computed: {
+    categories() {
+      const store = useItemsStore();
+      return store.categories;
+    }
   },
   watch: {
     categories(val) {
@@ -53,6 +52,7 @@ export default {
 a {
   color: #292929 !important;
 }
+
 .absolute {
   position: relative;
 
@@ -96,6 +96,12 @@ a {
     border-radius: 10px;
     cursor: pointer;
     user-select: none;
+
+    a {
+      flex-direction: row;
+      align-items: center;
+      display: flex;
+    }
 
     &-img {
       max-width: 24px;
